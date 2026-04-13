@@ -1,0 +1,21 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Base.Theme.WordTrigger" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="containerColor">@color/black</item>
+
+    </style>
+
+    <style name="ShapeAppearance.App.CircleImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="CustomAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="android:background">@color/white</item>
+        <item name="colorOnSurface">@color/black</item>
+        <item name="colorPrimary">@color/blue</item>
+    </style>
+
+    <style name="Theme.WordTrigger" parent="Base.Theme.WordTrigger" />
+</resources>

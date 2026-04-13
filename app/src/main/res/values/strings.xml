@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">WordTrigger</string>
+    <string name="hello_blank_fragment">WordTrigger</string>
+    <string name="description">A mobile app for working with the speech culture monitoring system. Good luck with your speech correction.</string>
+</resources>

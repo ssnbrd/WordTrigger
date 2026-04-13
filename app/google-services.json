@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "526850222741",
+    "project_id": "wordtrigger-1",
+    "storage_bucket": "wordtrigger-1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:526850222741:android:4e325220b8a82ab2a9c99c",
+        "android_client_info": {
+          "package_name": "com.example.wordtrigger"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "526850222741-i2ppbls6rk94ddh2kn1ijm5ftb8mdl76.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAK0wm-c67_wiEOy1FWMxw9iVbh5Uuch2Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "526850222741-i2ppbls6rk94ddh2kn1ijm5ftb8mdl76.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
