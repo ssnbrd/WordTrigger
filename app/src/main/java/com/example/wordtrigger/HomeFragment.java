@@ -1,5 +1,7 @@
 package com.example.wordtrigger;
 
+import com.example.wordtrigger.BuildConfig;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -66,7 +68,28 @@ public class HomeFragment extends Fragment {
             popup.getMenuInflater().inflate(R.menu.dashboard_menu, popup.getMenu());
 
             popup.show();
+//            popup.setOnMenuItemClickListener(item -> {
+//                int id = item.getItemId();
+//                if (id == R.id.menu_settings) {
+//                    getParentFragmentManager().beginTransaction()
+//                            .replace(R.id.fragment_container, new ReferenceFragment())
+//                            .addToBackStack(null).commit();
+//                    return true;
+//                }
+//                return false;
+//            });
+            popup.setOnMenuItemClickListener(item -> {
+                if (item.getItemId() == R.id.menu_help) {
+                    showHelpDialog();
+                    return true;
+                } else if (item.getItemId() == R.id.menu_settings) {
+                    shareProgress();
+                    return true;
+                }
+                return false;
+            });
         });
+
         lineChart = root.findViewById(R.id.chartSpeechStats);
         countToday = root.findViewById(R.id.tvTodayCount);
         tvMinDaily = root.findViewById(R.id.tvMinDaily);
@@ -163,11 +186,6 @@ public class HomeFragment extends Fragment {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         String todayStr = sdf.format(new Date());
 
-//        java.util.Calendar cal = java.util.Calendar.getInstance();
-//        cal.add(java.util.Calendar.DATE, -1);
-//        String yesterdayStr = sdf.format(cal.getTime());
-//        cal.set(java.util.Calendar.DAY_OF_WEEK, java.util.Calendar.MONDAY);
-//        Date mondayStart = cal.getTime();
         java.util.Calendar cal = java.util.Calendar.getInstance();
         cal.setFirstDayOfWeek(java.util.Calendar.MONDAY);
 
@@ -237,7 +255,8 @@ public class HomeFragment extends Fragment {
             tvDiffLabel.setText("На " + diff + " меньше, чем вчера");
         } else if (diff < 0) {
             tvDiffLabel.setText("На " + Math.abs(diff) + " больше, чем вчера");
-        } else {
+        }
+        else {
             tvDiffLabel.setText("Столько же, сколько вчера");
         }
 
@@ -284,7 +303,7 @@ public class HomeFragment extends Fragment {
                 URL url = new URL("https://api.groq.com/openai/v1/chat/completions");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("POST");
-                conn.setRequestProperty("Authorization", "Bearer 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");
+                conn.setRequestProperty("Authorization", "Bearer " + BuildConfig.GROQ_API_KEY);
                 conn.setRequestProperty("Content-Type", "application/json");
                 conn.setDoOutput(true);
 
@@ -319,5 +338,22 @@ public class HomeFragment extends Fragment {
     private boolean isSameDay(Date date1, Date date2) {
         SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
         return fmt.format(date1).equals(fmt.format(date2));
+    }
+    private void showHelpDialog() {
+        new com.google.android.material.dialog.MaterialAlertDialogBuilder(requireContext())
+                .setTitle("Как пользоваться системой?")
+                .setMessage("1. Включите ESP32.\n2. В приложении нажмите 'Запустить'.\n" +
+                        "3. Выберите контекст в профиле.\n4. Если вы скажете слово-паразит, устройство завибрирует.\n" +
+                        "5. Получайте ИИ-отчет в конце дня!")
+                .setPositiveButton("Понятно", null)
+                .show();
+    }
+
+    private void shareProgress() {
+        String message = "Мой прогресс в WordTrigger: сегодня я сказал " + countToday.getText() + " слов-паразитов. Становлюсь лучше!";
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, message);
+        startActivity(Intent.createChooser(intent, "Поделиться"));
     }
 }

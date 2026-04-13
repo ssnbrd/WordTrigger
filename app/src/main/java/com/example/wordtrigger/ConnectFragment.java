@@ -13,20 +13,37 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class ConnectFragment extends Fragment {
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private String uid = FirebaseAuth.getInstance().getUid();
     private TextView statusText, tvConnectionStatus;
     private Button btnStart;
     private CardView searchBut;
     private boolean isServiceRunning = false;
     private Handler searchHandler = new Handler();
     private Runnable searchRunnable;
+    private ChipGroup parasiteChipGroup;
+    private  Button btnApplyWords;
+    private  Button btnAddWord;
+    private EditText etNewParasite;
 
     private final BroadcastReceiver statusReceiver = new BroadcastReceiver() {
         @Override
@@ -60,6 +77,10 @@ public class ConnectFragment extends Fragment {
         tvConnectionStatus = view.findViewById(R.id.tvDeviceStatus);
         btnStart = view.findViewById(R.id.btnStart);
         searchBut = view.findViewById(R.id.searchBut);
+        btnApplyWords = view.findViewById(R.id.btnApplyWords);
+        parasiteChipGroup = view.findViewById(R.id.parasiteChipGroup);
+        btnAddWord = view.findViewById(R.id.btnAddWord);
+        etNewParasite = view.findViewById(R.id.etNewParasite);
 
         btnStart.setOnClickListener(v -> {
             Intent serviceIntent = new Intent(getContext(), MonitoringService.class);
@@ -99,6 +120,27 @@ public class ConnectFragment extends Fragment {
                 return true;
             }
             return false;
+        });
+        btnApplyWords.setOnClickListener(v -> {
+            List<String> selectedWords = new ArrayList<>();
+            for (int id : parasiteChipGroup.getCheckedChipIds()) {
+                selectedWords.add(((Chip)parasiteChipGroup.findViewById(id)).getText().toString().toLowerCase());
+            }
+
+            db.collection("users").document(uid).update("trigger_words", selectedWords)
+                    .addOnSuccessListener(aVoid -> Toast.makeText(getContext(), "Список обновлен!", Toast.LENGTH_SHORT).show());
+        });
+
+        btnAddWord.setOnClickListener(v -> {
+            String newWord = etNewParasite.getText().toString().trim().toLowerCase();
+            if (!newWord.isEmpty()) {
+                Chip chip = new Chip(getContext());
+                chip.setText(newWord);
+                chip.setCheckable(true);
+                chip.setChecked(true);
+                parasiteChipGroup.addView(chip);
+                etNewParasite.setText("");
+            }
         });
     }
 
