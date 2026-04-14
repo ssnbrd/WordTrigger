@@ -29,6 +29,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ConnectFragment extends Fragment {
@@ -44,6 +45,7 @@ public class ConnectFragment extends Fragment {
     private  Button btnApplyWords;
     private  Button btnAddWord;
     private EditText etNewParasite;
+    private SpeechRecognitionHelper speechHelper;
 
     private final BroadcastReceiver statusReceiver = new BroadcastReceiver() {
         @Override
@@ -134,14 +136,95 @@ public class ConnectFragment extends Fragment {
         btnAddWord.setOnClickListener(v -> {
             String newWord = etNewParasite.getText().toString().trim().toLowerCase();
             if (!newWord.isEmpty()) {
-                Chip chip = new Chip(getContext());
+                Context themeContext = new android.view.ContextThemeWrapper(getContext(), R.style.CustomChipStyle);
+                Chip chip = new Chip(themeContext);
                 chip.setText(newWord);
                 chip.setCheckable(true);
                 chip.setChecked(true);
+
+                chip.setCheckedIconVisible(false);
+
+                int[][] states = new int[][]{
+                        new int[]{android.R.attr.state_checked},
+                        new int[]{}
+                };
+                int[] colors = new int[]{
+                        Color.parseColor("#0000FF"),
+                        Color.parseColor("#2C2C2E")
+                };
+                chip.setChipBackgroundColor(new android.content.res.ColorStateList(states, colors));
+
+                chip.setTextColor(Color.WHITE);
+
+                chip.setChipStrokeWidth(0f);
+
                 parasiteChipGroup.addView(chip);
                 etNewParasite.setText("");
             }
         });
+        loadTriggerWords();
+    }
+
+    private final String[] defaultWords = {"короче", "типа", "ну ", "блин"};
+
+    private void loadTriggerWords() {
+        db.collection("users").document(uid).get().addOnSuccessListener(doc -> {
+            if (doc.exists()) {
+                List<String> savedWords = (List<String>) doc.get("trigger_words");
+                if (savedWords == null) savedWords = new ArrayList<>();
+
+                parasiteChipGroup.removeAllViews();
+
+                for (String word : savedWords) {
+                    addChipToGroup(word, true);
+                }
+
+                for (String dw : defaultWords) {
+                    if (!savedWords.contains(dw)) {
+                        addChipToGroup(dw, false);
+                    }
+                }
+            }
+        });
+    }
+    private void addChipToGroup(String word, boolean isChecked) {
+        Context themeContext = new android.view.ContextThemeWrapper(getContext(), R.style.CustomChipStyle);
+        Chip chip = new Chip(themeContext);
+
+        chip.setText(word);
+        chip.setCheckable(true);
+        chip.setChecked(isChecked);
+        chip.setCheckedIconVisible(false);
+
+        int[][] states = new int[][]{
+                new int[]{android.R.attr.state_checked},
+                new int[]{}
+        };
+        int[] colors = new int[]{
+                Color.parseColor("#0000FF"),
+                Color.parseColor("#2C2C2E")
+        };
+        chip.setChipBackgroundColor(new android.content.res.ColorStateList(states, colors));
+
+        chip.setTextColor(Color.WHITE);
+
+        chip.setChipStrokeWidth(0f);
+
+        if (!isDefaultWord(word)) {
+            chip.setCloseIconVisible(true);
+            chip.setCloseIconTint(android.content.res.ColorStateList.valueOf(Color.WHITE));
+            chip.setOnCloseIconClickListener(v -> {
+                parasiteChipGroup.removeView(chip);
+            });
+        }
+
+        parasiteChipGroup.addView(chip);
+    }
+
+
+    private boolean isDefaultWord(String word) {
+        for (String s : defaultWords) if (s.equalsIgnoreCase(word)) return true;
+        return false;
     }
 
     @Override

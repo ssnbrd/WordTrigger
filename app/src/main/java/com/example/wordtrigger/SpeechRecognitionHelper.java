@@ -7,9 +7,13 @@ import org.vosk.Model;
 import org.vosk.Recognizer;
 import org.vosk.android.StorageService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SpeechRecognitionHelper {
     private Recognizer recognizer;
     private boolean isReady = false;
+    private List<String> targetWords = new ArrayList<>();
 
     public interface OnWordDetectedListener {
         void onDetected(String word);
@@ -50,7 +54,9 @@ public class SpeechRecognitionHelper {
             parseAndCheck(recognizer.getPartialResult(), false);
         }
     }
-
+    public void setTargetWords(List<String> words) {
+        this.targetWords = words;
+    }
     private void parseAndCheck(String json, boolean isFinal) {
         try {
             JSONObject obj = new JSONObject(json);
@@ -60,9 +66,9 @@ public class SpeechRecognitionHelper {
                 Log.d("VOSK_HEARD", "СЛЫШУ: " + text);
                 listener.onPartialResult(text);
 
-                String[] targets = {"короче", "типа", "черт ", "черт", "блин", "в общем", "как бы", "блять", "похуй", "нахуй", "пизда", "ахуеть", "пиздец", "блядство", "бля"};
-                for (String target : targets) {
-                    if (text.toLowerCase().contains(target)) {
+                //String[] targetWords = {"короче", "типа", "черт ", "черт", "блин", "в общем", "как бы", "блять", "похуй", "нахуй", "пизда", "ахуеть", "пиздец", "блядство", "бля"};
+                for (String target : targetWords) {
+                    if (text.toLowerCase().contains(target.toLowerCase())) {
                         listener.onDetected(target);
                         recognizer.reset();
                         break;

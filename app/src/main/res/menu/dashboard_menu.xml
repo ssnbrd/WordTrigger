@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/menu_settings"
-          android:title="Настройки устройства" />
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/white">
+    <item android:id="@+id/menu_share"
+          android:title="Поделиться" />
+    <item android:id="@+id/menu_about"
+        android:title="Справка" />
     <item android:id="@+id/menu_help"
-          android:title="Справка" />
+          android:title="Помощь" />
 </menu>

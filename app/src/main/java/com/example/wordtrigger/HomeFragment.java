@@ -68,25 +68,17 @@ public class HomeFragment extends Fragment {
             popup.getMenuInflater().inflate(R.menu.dashboard_menu, popup.getMenu());
 
             popup.show();
-//            popup.setOnMenuItemClickListener(item -> {
-//                int id = item.getItemId();
-//                if (id == R.id.menu_settings) {
-//                    getParentFragmentManager().beginTransaction()
-//                            .replace(R.id.fragment_container, new ReferenceFragment())
-//                            .addToBackStack(null).commit();
-//                    return true;
-//                }
-//                return false;
-//            });
             popup.setOnMenuItemClickListener(item -> {
                 if (item.getItemId() == R.id.menu_help) {
                     showHelpDialog();
                     return true;
-                } else if (item.getItemId() == R.id.menu_settings) {
+                } else if (item.getItemId() == R.id.menu_share) {
                     shareProgress();
                     return true;
-                }
-                return false;
+                } else if (item.getItemId() == R.id.menu_about) {
+                    showAboutUsDialog();
+                    return true;
+                } return false;
             });
         });
 
@@ -339,18 +331,27 @@ public class HomeFragment extends Fragment {
         SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
         return fmt.format(date1).equals(fmt.format(date2));
     }
+    private void showAboutUsDialog(){
+        new com.google.android.material.dialog.MaterialAlertDialogBuilder(requireContext())
+                .setTitle("Об авторе проекта")
+                .setMessage("Система контроля культуры речи\n Автор: Софья Бурда\n" +
+                        "Контакты: ssnbrd3@gmail.com\n Ссылка проекта на Github: https://github.com/ssnbrd/WordTrigger\n" +
+                        "Научный руководитель: Андрейчук Александр Олегович")
+                .setPositiveButton("Понятно", null)
+                .show();
+    }
     private void showHelpDialog() {
         new com.google.android.material.dialog.MaterialAlertDialogBuilder(requireContext())
                 .setTitle("Как пользоваться системой?")
-                .setMessage("1. Включите ESP32.\n2. В приложении нажмите 'Запустить'.\n" +
-                        "3. Выберите контекст в профиле.\n4. Если вы скажете слово-паразит, устройство завибрирует.\n" +
-                        "5. Получайте ИИ-отчет в конце дня!")
+                .setMessage("1. Включите устройство.\n2. Проверьте интернет соединение и в приложении нажмите Запустить систему.\n" +
+                        "3. Выберите контекст в профиле и загрузите его.\n4. Если вы скажете слово-паразит, устройство завибрирует.\n" +
+                        "5. Вечером отключите систему и получите ИИ-отчет!")
                 .setPositiveButton("Понятно", null)
                 .show();
     }
 
     private void shareProgress() {
-        String message = "Мой прогресс в WordTrigger: сегодня я сказал " + countToday.getText() + " слов-паразитов. Становлюсь лучше!";
+        String message = "Мой прогресс в WordTrigger: сегодня я сказал " + countToday.getText() + " слов-паразитов.";
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_TEXT, message);

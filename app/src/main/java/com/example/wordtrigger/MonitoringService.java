@@ -39,6 +39,7 @@ public class MonitoringService extends Service {
     private UdpService udpService;
     private SpeechRecognitionHelper speechHelper;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private String uid = FirebaseAuth.getInstance().getUid();
     private PowerManager.WakeLock wakeLock;
     private WifiManager.WifiLock wifiLock;
     private long lastPacketTime = 0;
@@ -89,7 +90,14 @@ public class MonitoringService extends Service {
             }
         }, 2000);
         IntentFilter filter = new IntentFilter("com.example.wordtrigger.ACTION_VIBRATE");
-
+        db.collection("users").document(uid).addSnapshotListener((snapshot, e) -> {
+            if (snapshot != null && snapshot.exists()) {
+                List<String> wordsFromDb = (List<String>) snapshot.get("trigger_words");
+                if (wordsFromDb != null && speechHelper != null) {
+                    speechHelper.setTargetWords(wordsFromDb);
+                }
+            }
+        });
         androidx.core.content.ContextCompat.registerReceiver(
                 this,
                 vibrationReceiver,

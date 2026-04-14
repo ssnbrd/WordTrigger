@@ -41,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:backgroundTint="@color/blue"
-            android:text="Connected to the device"
+            android:text="Запустить систему"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="@color/white" />
@@ -162,7 +162,7 @@
                 app:chipBackgroundColor="@color/chip_bg_selector"
                 android:textColor="@color/chip_text_color"
                 app:chipStrokeWidth="0dp"
-                android:text="Типа" />
+                android:text="Как бы" />
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip5"
                 style="@style/Widget.MaterialComponents.Chip.Filter"
