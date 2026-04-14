@@ -12,16 +12,16 @@
 
 ## Скриншоты приложения
 <p align="center">
-  <img src="screenshots/main.jpg" width="250" title="Главный экран">
-  <img src="screenshots/connect.jpg" width="250" title="Настройка слов">
-  <img src="screenshots/profile.jpg" width="250" title="Профиль и контексты">
-  <img src="screenshots/library.jpg" width="250" title="Библиотека слов">
+  <img src="screenshots/main.jpg" width="200" title="Главный экран">
+  <img src="screenshots/connect.jpg" width="200" title="Настройка слов">
+  <img src="screenshots/profile.jpg" width="200" title="Профиль и контексты">
+  <img src="screenshots/library.jpg" width="200" title="Библиотека слов">
 </p>
 
 <p align="center">
-  <img src="screenshots/article.jpg" width="250" title="Выбор статьи для чнения">
-  <img src="screenshots/article_details.jpg" width="250" title="Вид открытой статьи">
-  <img src="screenshots/ai.jpg" width="250" title="Отчет от ИИ">
+  <img src="screenshots/article.jpg" width="200" title="Выбор статьи для чнения">
+  <img src="screenshots/article_details.jpg" width="200" title="Вид открытой статьи">
+  <img src="screenshots/ai.jpg" width="200" title="Отчет от ИИ">
 </p>
 
 ## Безопасность и ограничения
@@ -37,13 +37,13 @@
 
 ## Схема подключения (Hardware)
 - **Микрофон INMP441:** I2S связь (SD->13, WS->11, SCK->12).
-- **Вибромотор:** Подключен через транзистор 2N2222 к GPIO 18 (защита диодом 1N4007).
+- **Вибромотор:** Подключен через транзистор 2N2222 к GPIO 15 (защита диодом 1N4148).
 
 ## Установка и запуск
 1. Склонируйте репозиторий.
-2. Добавьте ваш `google-services.json` в папку `app/`.
-3. В "HomeFragment.java" вставьте ваш API ключ от Groq.
-4. Прошейте ESP32-S3 кодом из папки firmware (PlatformIO), указав IP-адрес вашего телефона.
+2. Создайте проект в Firebase Authentication и добавьте ваш `google-services.json` в папку `app/`.
+3. В `HomeFragment.java` вставьте ваш API ключ от Groq.
+4. Прошейте ESP32 кодом из папки ControlCulture (PlatformIO), указав IP-адрес вашего телефона, пароль и название сети Wi-Fi.
 5. Разместите модель `vosk-model-small-ru` в `app/src/main/assets/model/`.
 
 ## Разработчица
