@@ -158,6 +158,21 @@ public class ConnectFragment extends Fragment {
 
                 chip.setChipStrokeWidth(0f);
 
+                if (!newWord.matches("^[a-zA-Zа-яА-ЯёЁ\\s]+$")) {
+                    Toast.makeText(getContext(), "Цифры и символы запрещены", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (newWord.length() > 20) {
+                    Toast.makeText(getContext(), "Слишком длинная фраза", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (newWord.contains("\n") || newWord.contains("\r")) {
+                    Toast.makeText(getContext(), "Переносы строк запрещены", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 parasiteChipGroup.addView(chip);
                 etNewParasite.setText("");
             }
