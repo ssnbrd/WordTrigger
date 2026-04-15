@@ -26,6 +26,9 @@ public class ArticlesListFragment extends Fragment {
         rv = v.findViewById(R.id.rvWordsLibrary);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         rv.setAdapter(adapter);
+        v.findViewById(R.id.returnBut).setOnClickListener(view -> {
+            getParentFragmentManager().popBackStack();
+        });
         adapter = new ArticleAdapter(list, article -> {
             ArticleDetailFragment detail = new ArticleDetailFragment();
             Bundle b = new Bundle();
