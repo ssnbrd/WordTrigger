@@ -2,15 +2,11 @@ package com.example.wordtrigger;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
 import com.google.firebase.auth.FirebaseAuth;
 
 public class SignInActivity extends AppCompatActivity {
@@ -28,6 +24,10 @@ public class SignInActivity extends AppCompatActivity {
 
         findViewById(R.id.tvToSignUp).setOnClickListener(v -> {
             startActivity(new Intent(this, SignUpActivity.class));
+        });
+
+        findViewById(R.id.resetPassword).setOnClickListener(v -> {
+            showResetPasswordDialog();
         });
 
         findViewById(R.id.btnDoSignIn).setOnClickListener(v -> {
@@ -48,5 +48,36 @@ public class SignInActivity extends AppCompatActivity {
             });
         });
     }
+    private void resetPassword(String email) {
+        if (email.isEmpty()) {
+            Toast.makeText(this, "Введите ваш email", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+
+        auth.sendPasswordResetEmail(email)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(this, "Письмо для сброса пароля отправлено на вашу почту", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(this, "Ошибка: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+    private void showResetPasswordDialog() {
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_reset_password, null);
+        final EditText resetMail = dialogView.findViewById(R.id.etResetEmail);
+
+        new com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
+                .setTitle("Восстановление пароля")
+                .setMessage("Введите email, на который зарегистрирован аккаунт")
+                .setView(dialogView)
+                .setPositiveButton("Отправить", (dialog, which) -> {
+                    resetPassword(resetMail.getText().toString().trim());
+                })
+                .setNegativeButton("Отмена", null)
+                .show()
+                .getWindow().setBackgroundDrawableResource(android.R.color.white);
+    }
 }

@@ -25,9 +25,9 @@
         <item name="rippleColor">@color/blue</item>
     </style>
 
+
     <style name="AlertDialogTheme" parent="Theme.Material3.DayNight.Dialog.Alert">
         <item name="android:windowBackground">@color/white</item>
-
     </style>
 
     <style name="Theme.WordTrigger" parent="Base.Theme.WordTrigger" />
