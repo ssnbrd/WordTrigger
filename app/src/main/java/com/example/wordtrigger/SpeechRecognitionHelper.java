@@ -40,20 +40,28 @@ public class SpeechRecognitionHelper {
         );
     }
 
-    public void processAudio(byte[] buffer, int len) {
-        if (!isReady || recognizer == null) return;
-
-        short[] samples = new short[len / 2];
-        for (int i = 0; i < samples.length; i++) {
-            samples[i] = (short) ((buffer[i * 2 + 1] << 8) | (buffer[i * 2] & 0xff));
-        }
-
-        if (recognizer.acceptWaveForm(samples, samples.length)) {
-            parseAndCheck(recognizer.getResult(), true);
-        } else {
-            parseAndCheck(recognizer.getPartialResult(), false);
-        }
+//    public void processAudio(byte[] buffer, int len) {
+//        if (!isReady || recognizer == null) return;
+//
+//        short[] samples = new short[len / 2];
+//        for (int i = 0; i < samples.length; i++) {
+//            samples[i] = (short) ((buffer[i * 2 + 1] << 8) | (buffer[i * 2] & 0xff));
+//        }
+//
+//        if (recognizer.acceptWaveForm(samples, samples.length)) {
+//            parseAndCheck(recognizer.getResult(), true);
+//        } else {
+//            parseAndCheck(recognizer.getPartialResult(), false);
+//        }
+//    }
+public void processAudio(byte[] buffer, int len) {
+    if (!isReady || recognizer == null) return;
+    if (recognizer.acceptWaveForm(buffer, len)) {
+        parseAndCheck(recognizer.getResult(), true);
+    } else {
+        parseAndCheck(recognizer.getPartialResult(), false);
     }
+}
     public void setTargetWords(List<String> words) {
         this.targetWords = words;
     }
@@ -66,7 +74,6 @@ public class SpeechRecognitionHelper {
                 Log.d("VOSK_HEARD", "СЛЫШУ: " + text);
                 listener.onPartialResult(text);
 
-                //String[] targetWords = {"короче", "типа", "черт ", "черт", "блин", "в общем", "как бы", "блять", "похуй", "нахуй", "пизда", "ахуеть", "пиздец", "блядство", "бля"};
                 for (String target : targetWords) {
                     if (text.toLowerCase().contains(target.toLowerCase())) {
                         listener.onDetected(target);
