@@ -17,6 +17,7 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+        EdgeInsets.apply(this, false);
 
         findViewById(R.id.btnGetStarted).setOnClickListener(v -> {
             startActivity(new Intent(this, SignInActivity.class));
@@ -27,7 +28,9 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onStart();
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
-            startActivity(new Intent(this, MainActivity.class));
+            Intent main = new Intent(this, MainActivity.class);
+            main.putExtras(getIntent());   // например, open_study из виджета серии
+            startActivity(main);
             finish();
         }
     }

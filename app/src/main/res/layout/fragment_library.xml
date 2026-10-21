@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="11dp"
             android:layout_toEndOf="@id/returnBut"
-            android:text="Word library"
+            android:text="@string/library_title"
             android:textColor="@color/white"
             android:textSize="24sp"
             android:textStyle="bold" />

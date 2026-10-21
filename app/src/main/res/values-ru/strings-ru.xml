@@ -1,0 +1,382 @@
+<resources>
+    <string name="app_name">WordTrigger</string>
+    <string name="hello_blank_fragment">WordTrigger.</string>
+    <string name="description">Мобильное приложение для работы с системой контроля культуры речи. Удачи в коррекции речи!</string>
+    <string name="auth_sign_in_title">Вход</string>
+    <string name="auth_email">Электронная почта</string>
+    <string name="auth_password">Пароль</string>
+    <string name="auth_sign_in_btn">ВОЙТИ</string>
+    <string name="auth_forgot">Забыли пароль?</string>
+    <string name="auth_to_sign_up">Ещё нет аккаунта? Зарегистрироваться</string>
+    <string name="auth_sign_up_title">Регистрация</string>
+    <string name="auth_create">Создать новый аккаунт</string>
+    <string name="auth_username">Имя пользователя</string>
+    <string name="auth_phone">Номер телефона</string>
+    <string name="auth_sign_up_btn">ЗАРЕГИСТРИРОВАТЬСЯ</string>
+    <string name="auth_to_sign_in">Уже есть аккаунт? Войти</string>
+    <string name="auth_fill_all">Заполните все поля!</string>
+    <string name="auth_bad_login">Неверный логин или пароль</string>
+    <string name="auth_enter_email">Введите ваш email</string>
+    <string name="auth_reset_sent">Письмо для сброса пароля отправлено на вашу почту</string>
+    <string name="auth_error">Ошибка: %s</string>
+    <string name="auth_reset_title">Восстановление пароля</string>
+    <string name="auth_reset_msg">Введите email, на который зарегистрирован аккаунт</string>
+    <string name="auth_send">Отправить</string>
+    <string name="auth_cancel">Отмена</string>
+    <string name="auth_password_short">Пароль должен быть не меньше 8 символов</string>
+    <string name="auth_signup_ok">Успешная регистрация!</string>
+    <string name="auth_db_error">Ошибка сохранения данных в БД</string>
+    <string name="auth_signup_error">Ошибка регистрации: %s</string>
+    <string name="welcome_title">Добро пожаловать в WordTrigger.</string>
+    <string name="welcome_start">НАЧАТЬ</string>
+    <string name="articles_title">Статьи</string>
+    <string name="connect_title">Связь</string>
+    <string name="connect_start">Запустить систему</string>
+    <string name="connect_stop">Остановить систему</string>
+    <string name="connect_waiting">Ожидание...</string>
+    <string name="connect_find_title">Найти устройство</string>
+    <string name="connect_find_desc">Если ваше устройство подключено, вы можете найти его запустив серию вибросигналов</string>
+    <string name="connect_my_words">Мои триггерные слова</string>
+    <string name="connect_add_hint">Добавить свое слово...</string>
+    <string name="connect_apply">Применить список</string>
+    <string name="connect_device_on">Устройство подключено</string>
+    <string name="connect_device_search">Поиск устройства...</string>
+    <string name="connect_system_off">Система выключена</string>
+    <string name="connect_list_updated">Список обновлен!</string>
+    <string name="connect_err_symbols">Цифры и символы запрещены</string>
+    <string name="connect_err_long">Слишком длинная фраза</string>
+    <string name="connect_err_newline">Переносы строк запрещены</string>
+    <string name="parasite_1">Короче</string>
+    <string name="parasite_2">"Ну "</string>
+    <string name="parasite_3">Блин</string>
+    <string name="parasite_4">Как бы</string>
+    <string name="parasite_5">В общем</string>
+    <string name="parasite_6">Черт</string>
+    <string name="parasite_7">Жесть</string>
+    <string name="parasite_8">По итогу</string>
+    <string name="parasite_9">Это самое</string>
+    <string name="home_report_btn">Получить ИИ-отчет за неделю</string>
+    <string name="home_today_label">Триггерных слов\nсказано сегодня</string>
+    <string name="home_diff_default">По сравнению\nсо вчера</string>
+    <string name="home_min_label">Минимально было\nсказано за день</string>
+    <string name="home_max_label">Максимально было\nсказано за день</string>
+    <string name="home_chart_label">Слова-паразиты</string>
+    <string name="home_diff_less">На %d меньше, чем вчера</string>
+    <string name="home_diff_more">На %d больше, чем вчера</string>
+    <string name="home_diff_same">Столько же, сколько вчера</string>
+    <string name="home_about_title">Об авторе проекта</string>
+    <string name="home_about_msg">Система контроля культуры речи\nАвтор: Софья Бурда\nКонтакты: ssnbrd3@gmail.com\nСсылка проекта на Github: https://github.com/ssnbrd/WordTrigger\nНаучный руководитель: Андрейчук Александр Олегович</string>
+    <string name="home_help_title">Как пользоваться системой?</string>
+    <string name="home_help_msg">1. Включите устройство.\n2. Проверьте интернет соединение и в приложении нажмите Запустить систему.\n3. Выберите контекст в профиле и загрузите его.\n4. Если вы скажете слово-паразит, устройство завибрирует.\n5. Вечером отключите систему и получите ИИ-отчет!</string>
+    <string name="home_share_msg">Мой прогресс в WordTrigger: сегодня я сказал %s слов-паразитов.</string>
+    <string name="home_share_title">Поделиться</string>
+    <string name="library_title">Библиотека слов</string>
+    <string name="profile_title">Профиль</string>
+    <string name="profile_username_placeholder">Имя пользователя</string>
+    <string name="profile_context_title">Какой контекст речи сегодня?</string>
+    <string name="ctx_work">Работа</string>
+    <string name="ctx_family">Семья</string>
+    <string name="ctx_public">Публичное выступление</string>
+    <string name="ctx_friends">Общение с друзьями</string>
+    <string name="ctx_conflict">Конфликтная ситуация</string>
+    <string name="ctx_stranger">Разговор с незнакомцем</string>
+    <string name="profile_context_save">Загрузить контекст на сегодня</string>
+    <string name="profile_articles_title">Техники улучшения культуры речи</string>
+    <string name="profile_go">Перейти</string>
+    <string name="profile_logout_title">Выход</string>
+    <string name="profile_logout_msg">Вы уверены, что хотите выйти из аккаунта?</string>
+    <string name="profile_logout_yes">Выйти</string>
+    <string name="profile_context_saved">Контекст сохранен на сегодня!</string>
+    <string name="profile_save_error">Ошибка сохранения</string>
+    <string name="profile_battery_title">Заряд устройства</string>
+    <string name="profile_battery_unknown">Данных от устройства пока нет</string>
+
+    <string name="nav_study">Учёба</string>
+
+    <string name="notif_title">WordTrigger активен</string>
+    <string name="notif_text">Анализирую вашу речь...</string>
+    <string name="notif_stop">Остановить</string>
+    <string name="widget_filler_title">СЛОВ-ПАРАЗИТОВ СЕГОДНЯ</string>
+    <string name="widget_compare">Сравнение со вчера</string>
+    <string name="widget_streak_label">ДНЕЙ СЕРИИ</string>
+    <string name="widget_lesson_left">Пройди урок: %1$d из %2$d</string>
+    <string-array name="weekdays_short">
+        <item>Пн</item>
+        <item>Вт</item>
+        <item>Ср</item>
+        <item>Чт</item>
+        <item>Пт</item>
+        <item>Сб</item>
+        <item>Вс</item>
+    </string-array>
+    <string-array name="default_trigger_words">
+        <item>короче</item>
+        <item>типа</item>
+        <item>"ну "</item>
+        <item>блин</item>
+    </string-array>
+
+    <string name="diff_less">На %d меньше, чем вчера</string>
+    <string name="diff_more">На %d больше, чем вчера</string>
+    <string name="ai_prompt_prefix">Мои данные за неделю: %s</string>
+    <string name="ai_stat_format">День: %1$s. Контексты: %2$s. Всего паразитов: %3$s; </string>
+    <string name="about_us_content">Система контроля культуры речи\nАвтор: Софья Бурда\nКонтакты: ssnbrd3@gmail.com\nСсылка проекта на Github: https://github.com/ssnbrd/WordTrigger\nНаучный руководитель: Андрейчук Александр Олегович</string>
+    <string name="share_progress_text">Мой прогресс в WordTrigger: сегодня я сказал %s слов-паразитов.</string>
+
+    <string name="nav_home">Главная</string>
+    <string name="nav_connect">Связь</string>
+    <string name="nav_profile">Профиль</string>
+    <string name="nav_library">Уроки</string>
+
+    <string name="menu_share">Поделиться</string>
+    <string name="menu_about">Справка</string>
+    <string name="menu_help">Помощь</string>
+
+    <string name="ai_report_system">Ты лингвист-психолог. Проанализируй данные речи (количество слов-паразитов по дням за последнюю неделю) и контексты речи, отмеченные пользователем. Отвечай на русском, коротко (до 200 слов), с логическим завершением и без продолжения: дай анализ речи и 3 упражнения для индивидуального плана (дикция, речевое дыхание, отсутствие слов-паразитов).</string>
+    <string name="ai_report_user">Мои данные за неделю: %s</string>
+    <string name="ai_report_day_line">День: %1$s. Контексты: %2$s. Всего паразитов: %3$d; </string>
+    <string name="ai_report_title">Аналитический отчёт ИИ</string>
+    <string name="ai_report_ok">Понятно</string>
+    <string name="ai_report_loading">Готовлю отчёт…</string>
+    <string name="ai_report_empty">За неделю пока нет данных. Включите систему и попробуйте снова.</string>
+    <string name="ai_report_local_title">Отчёт за неделю</string>
+    <string name="ai_report_local_note">ИИ-сервис сейчас недоступен, поэтому отчёт составлен приложением по вашим данным.</string>
+    <string name="local_total">Слов-паразитов за период: %1$d (в среднем %2$.1f в день).</string>
+    <string name="local_best">Лучший день: %1$s, %2$d.</string>
+    <string name="local_worst">Больше всего: %1$s, %2$d.</string>
+    <string name="local_trend_down">Динамика хорошая: во второй половине периода слов-паразитов меньше (%1$d против %2$d).</string>
+    <string name="local_trend_up">Во второй половине периода слов-паразитов стало больше (%1$d против %2$d).</string>
+    <string name="local_trend_flat">Динамика ровная.</string>
+    <string name="local_context">Чаще всего слова-паразиты звучат в контексте «%1$s»: в среднем %2$.1f в день.</string>
+    <string name="local_advice">Что делать дальше:\n• скороговорки для дикции;\n• «Осознанная речь» на три минуты без паразитов;\n• перед выступлением: вдох на 4 счёта, выдох на 6.</string>
+    <string name="ai_topic_system">Ты строгий, но справедливый тренер по речи. Пользователь должен был несколько минут говорить на заданную тему. Ниже автоматическая расшифровка: без знаков препинания, возможны ошибки распознавания, их не учитывай. Оцени только два пункта: говорит ли человек по теме и связна ли речь (не набор случайных слов и не бесконечные повторы). Ответь только JSON без другого текста: {\"on_topic\": true или false, \"score\": число от 0 до 100, \"comment\": \"один короткий совет на русском\"}.</string>
+    <string name="ai_topic_user">Тема: %1$s\nРасшифровка: %2$s</string>
+    <string name="ai_syn_system">Ты проверяешь синонимы. Тебе дают слово и список слов-кандидатов из автоматической расшифровки речи. Верни только JSON-массив тех кандидатов, которые являются настоящими синонимами или близкими по смыслу словами к заданному (та же часть речи). Если кандидат явно является ошибкой распознавания подходящего синонима, включи его так, как он записан. Не добавляй слова, которых нет в списке кандидатов. Пример: [\"слово1\",\"слово2\"]. Если подходящих нет, верни [].</string>
+    <string name="ai_syn_user">Слово: %1$s\nКандидаты: %2$s</string>
+    <string name="ai_err_not_configured">Ключ ИИ не задан. Добавьте LLM_API_KEY (OpenRouter) в local.properties и пересоберите приложение.</string>
+    <string name="ai_err_auth">ИИ-сервис не принял ключ. Проверьте LLM_API_KEY в local.properties.</string>
+    <string name="ai_err_limit">Бесплатный лимит ИИ исчерпан (около 50 запросов в сутки). Попробуйте завтра.</string>
+    <string name="ai_err_network">Нет связи с ИИ-сервисом. Проверьте интернет.</string>
+    <string name="ai_err_bad_response">Модель вернула пустой или нечитаемый ответ.</string>
+    <string name="ai_err_server">ИИ-сервис вернул ошибку. На OpenRouter проверьте Settings → Privacy: для бесплатных моделей должна быть включена опция «Enable free endpoints that may publish prompts».</string>
+    <string name="ai_check_title">Подключение ИИ</string>
+    <string name="ai_check_button">Проверить</string>
+    <string name="ai_check_running">Проверяю…</string>
+    <string name="ai_check_ok">ИИ работает.</string>
+    <string name="ai_report_reason">Причина: %s</string>
+    <string name="ai_exercise_fallback_toast">ИИ-проверка недоступна, использована простая проверка. Подробности в настройках.</string>
+
+    <string name="ai_gen_system">Ты создаёшь задания для приложения по тренировке речи. Отвечай только JSON-массивом строк, без другого текста.</string>
+    <string name="ai_gen_twisters">Дай %1$d скороговорок на русском языке. Только обычные, часто используемые слова (без редких, устаревших и выдуманных слов): их должен понимать распознаватель речи. От 4 до 12 слов, чёткая звуковая игра. Не придумывай, мне нужны уже существующие в свободном доступе. Подсказка по теме: %3$s. Не повторяй и не копируй: %2$s.</string>
+    <string name="ai_gen_synonyms">Дай %1$d распространённых русских слов (прилагательные, глаголы или существительные) для упражнения на синонимы. К каждому слову 8-12 настоящих синонимов из одного слова. Формат каждого элемента массива: слово|синоним1, синоним2, синоним3. Подсказка по теме: %3$s. Не используй эти слова: %2$s.</string>
+    <string name="ai_gen_topics">Дай %1$d тем для трёхминутного рассказа с понятным бытовым ракурсом. Формат каждого элемента массива: тема|основа1, основа2, основа3, где основы - 8-12 основ слов в нижнем регистре, типичных для рассказа на эту тему (без окончаний). Подсказка по теме: %3$s. Не используй эти темы: %2$s.</string>
+    <string-array name="gen_themes">
+        <item>животные</item>
+        <item>еда</item>
+        <item>путешествия</item>
+        <item>погода</item>
+        <item>спорт</item>
+        <item>технологии</item>
+        <item>природа</item>
+        <item>город</item>
+        <item>школа</item>
+        <item>музыка</item>
+        <item>семья</item>
+        <item>работа</item>
+        <item>здоровье</item>
+        <item>праздники</item>
+    </string-array>
+
+    <string name="widget_label">слов-паразитов сегодня</string>
+    <string name="widget_description">Сколько слов-паразитов сказано сегодня</string>
+    <string name="profile_word_library">Библиотека слов</string>
+
+    <string name="exercise_result_title">Результат:</string>
+    <string name="exercise_another">Другая</string>
+    <string name="exercise_another_topic">Другая тема</string>
+    <string name="exercise_another_word">Другое слово</string>
+    <string name="exercise_start_recording">НАЧАТЬ ЗАПИСЬ</string>
+    <string name="exercise_stop_recording">ЗАВЕРШИТЬ ЗАПИСЬ</string>
+    <string name="exercise_loading_model">Загружаю модель распознавания…</string>
+    <string name="exercise_listening">Слушаю…</string>
+    <string name="exercise_mic_denied">Для упражнения нужен доступ к микрофону</string>
+    <string name="exercise_error">Ошибка распознавания: %s</string>
+    <string name="exercise_nothing_heard">Ничего не распознано. Говорите ближе к микрофону и попробуйте ещё раз.</string>
+    <string name="exercise_done">✓ Упражнение засчитано за сегодня</string>
+
+    <string name="exercise_play_reference">ИГРАТЬ ЭТАЛОН</string>
+    <string name="exercise_stop_reference">СТОП</string>
+    <string name="exercise_record">ПРОИЗНЕСТИ</string>
+    <string name="exercise_stop_record">ЗАВЕРШИТЬ</string>
+    <string name="exercise_tempo">ТЕМП: %s</string>
+    <string name="tempo_slow">МЕДЛЕННЫЙ</string>
+    <string name="tempo_medium">СРЕДНИЙ</string>
+    <string name="tempo_fast">БЫСТРЫЙ</string>
+    <string name="exercise_tts_unavailable">На устройстве не установлен голос для эталона на этом языке</string>
+    <string name="twister_result">Точность: %1$d%% (нужно: %4$d%%)\nТемп: %2$.1f слов/с (нужно: %3$.1f)</string>
+    <string name="twister_heard">Распознано: «%s»</string>
+    <string name="twister_failed_accuracy">Часть слов произнесена неразборчиво. Скажите ещё раз, можно выбрать более медленный темп.</string>
+    <string name="twister_failed_pace">Чётко, но слишком медленно для этого темпа. Попробуйте ещё раз!</string>
+    <string name="twister_hint">Произнесите фразу чётко сразу после нажатия кнопки. Запись остановится сама, когда вы закончите.</string>
+
+    <string name="mindful_topic">ТЕМА ДНЯ:\n\"%s\"</string>
+    <string name="mindful_my_fillers">Мои слова-паразиты: *%s*</string>
+    <string name="mindful_hint">Нажмите кнопку и расскажите на тему три минуты без слов-паразитов.</string>
+    <string name="mindful_result">Время речи: %1$s\nСлов: %2$d\nСлов-паразитов: %3$d</string>
+    <string name="mindful_fillers_breakdown">Слова-паразиты: %s</string>
+    <string name="mindful_too_short">Говорите не меньше %d секунд, чтобы упражнение засчиталось.</string>
+    <string name="mindful_too_many">Слишком много слов-паразитов (допустимо не больше %d). Попробуйте ещё раз!</string>
+    <string name="mindful_checking">Проверяю тему…</string>
+    <string name="mindful_topic_ai">Тема: %1$d/100 (ИИ)</string>
+    <string name="mindful_topic_local_ok">Тема: найдены слова по теме (%d).</string>
+    <string name="mindful_topic_local_fail">Не похоже, что вы говорили по теме. Раскройте тему подробнее и приведите примеры.</string>
+    <string name="mindful_topic_off_topic">Рассказ ушёл от темы. Держитесь темы «%s».</string>
+    <string name="mindful_variety_low">Слишком много повторов. Говорите разнообразнее.</string>
+    <string name="mindful_too_few_words">Рассказ слишком короткий: нужно хотя бы %d слов.</string>
+    <string name="mindful_simple_check_note">Тема проверена упрощённо (без ИИ).</string>
+
+    <string name="synonyms_word_label">СЛОВО:</string>
+    <string name="synonyms_hint">Назовите как можно больше синонимов за 30 секунд</string>
+    <string name="synonyms_result">Засчитано синонимов: %1$d\n%2$s</string>
+    <string name="synonyms_checking">Проверяю слова…</string>
+    <string name="synonyms_ai_note">* принято ИИ, этого слова нет во встроенном списке</string>
+    <string name="synonyms_unchecked">Слова вне списка не проверены: ИИ недоступен. Попробуйте позже или включите ИИ-проверку в настройках.</string>
+    <string name="synonyms_more">Можно было ещё сказать: %s</string>
+    <string name="synonyms_not_enough">Нужно назвать не меньше %d синонимов. Попробуйте ещё раз или возьмите другое слово!</string>
+
+    <string-array name="exercise_tongue_twisters">
+        <item>Шла Саша по шоссе и сосала сушку</item>
+        <item>Корабли лавировали, лавировали, да не вылавировали</item>
+        <item>Карл у Клары украл кораллы, а Клара у Карла украла кларнет</item>
+        <item>На дворе трава, на траве дрова</item>
+        <item>От топота копыт пыль по полю летит</item>
+        <item>Жужжит жужелица, жужжит, да не кружится</item>
+        <item>Ехал Грека через реку, видит Грека в реке рак. Сунул Гpека pуку в pеку, pак за pуку Гpеку цап!</item>
+        <item>Сшит колпак не по-колпаковски, вылит колокол не по-колоколовски</item>
+        <item>Лезут козы в гpозу в лозу — лозу козы в гpозу гpызут</item>
+        <item>На мели мы налима лениво ловили, Меняли налима вы мне на линя. О любви не меня ли вы мило молили, И в туманы лимана манили меня?</item>
+    </string-array>
+
+    <string-array name="exercise_topics">
+        <item>Как я провёл выходные|выходн, суббот, воскресен, отдых, друзь, гуля, дом, ходил, ездил, погод, фильм, встреч</item>
+        <item>Мой идеальный рабочий день|работ, утр, офис, задач, проект, коллег, график, перерыв, обед, кофе, встреч, продуктив</item>
+        <item>Книга или фильм, который меня удивил|книг, фильм, сюжет, геро, автор, режисс, персонаж, концов, читал, смотрел, актер, удивил</item>
+        <item>Место, где я хотел бы побывать|стран, город, путешеств, поездк, море, гор, достопримеч, культур, билет, отпуск, природ, самолет</item>
+        <item>Что для меня значит дружба|друг, дружб, довер, поддерж, помощ, общени, вместе, честн, верн, ссор, понима, близк</item>
+        <item>Мой любимый способ отдыхать|отдых, любим, прогулк, спорт, музык, сон, природ, хобби, книг, расслаб, кино, друзь</item>
+    </string-array>
+
+    <string-array name="exercise_synonyms">
+        <item>красивый|прекрасный, великолепный, чудесный, изумительный, привлекательный, симпатичный, замечательный, восхитительный, шикарный, очаровательный, миловидный, эффектный</item>
+        <item>большой|огромный, крупный, громадный, гигантский, внушительный, масштабный, обширный, колоссальный, грандиозный, великий</item>
+        <item>быстрый|скорый, стремительный, проворный, резвый, молниеносный, ускоренный, шустрый, оперативный, торопливый, поспешный</item>
+        <item>говорить|сказать, беседовать, произносить, рассказывать, болтать, разговаривать, высказываться, сообщать, изрекать, толковать</item>
+        <item>думать|размышлять, полагать, считать, рассуждать, соображать, мыслить, предполагать, раздумывать, обдумывать, прикидывать</item>
+        <item>хороший|отличный, замечательный, превосходный, славный, прекрасный, великолепный, добрый, достойный, чудесный, отменный, неплохой</item>
+        <item>смелый|отважный, храбрый, бесстрашный, мужественный, решительный, дерзкий, доблестный, неустрашимый, отчаянный, геройский</item>
+        <item>грустный|печальный, унылый, тоскливый, скорбный, мрачный, невесёлый, понурый, подавленный, безрадостный, горестный</item>
+        <item>умный|разумный, смышлёный, толковый, сообразительный, мудрый, башковитый, образованный, находчивый, догадливый, интеллектуальный</item>
+        <item>идти|шагать, ступать, двигаться, топать, шествовать, выступать, брести, следовать, направляться, вышагивать</item>
+    </string-array>
+
+    <string-array name="default_filler_words">
+        <item>ну</item>
+        <item>типа</item>
+        <item>короче</item>
+        <item>как бы</item>
+        <item>значит</item>
+    </string-array>
+
+    <string-array name="synonym_stop_words">
+        <item>и</item>
+        <item>а</item>
+        <item>но</item>
+        <item>да</item>
+        <item>ну</item>
+        <item>это</item>
+        <item>вот</item>
+        <item>как</item>
+        <item>что</item>
+        <item>не</item>
+        <item>или</item>
+        <item>то</item>
+        <item>слово</item>
+        <item>синоним</item>
+        <item>ещё</item>
+        <item>еще</item>
+        <item>тоже</item>
+        <item>типа</item>
+        <item>короче</item>
+        <item>значит</item>
+        <item>наверное</item>
+        <item>может</item>
+        <item>быть</item>
+        <item>есть</item>
+        <item>так</item>
+        <item>там</item>
+    </string-array>
+
+    <string name="settings_title">Настройки</string>
+    <string name="settings_edit_photo">Редактировать фото</string>
+    <string name="settings_choose_photo">Выбрать новое фото</string>
+    <string name="settings_remove_photo">Удалить фото</string>
+    <string name="settings_photo_updated">Фото обновлено</string>
+    <string name="settings_photo_failed">Не удалось использовать это фото</string>
+    <string name="settings_edit_name">Изменить имя</string>
+    <string name="settings_edit_email">Изменить почту</string>
+    <string name="settings_edit_phone">Изменить телефон</string>
+    <string name="settings_name_hint">Имя</string>
+    <string name="settings_email_hint">Новая почта</string>
+    <string name="settings_phone_hint">Телефон</string>
+    <string name="settings_save">Сохранить</string>
+    <string name="settings_cancel">Отмена</string>
+    <string name="settings_saved">Сохранено</string>
+    <string name="settings_save_failed">Не удалось сохранить. Проверьте интернет.</string>
+    <string name="settings_err_empty">Поле не должно быть пустым</string>
+    <string name="settings_err_email">Введите корректную почту</string>
+    <string name="settings_err_phone">Введите корректный номер телефона</string>
+    <string name="settings_email_sent">Мы отправили ссылку подтверждения на %s. Почта изменится после перехода по ней.</string>
+    <string name="settings_reauth_title">Подтвердите пароль</string>
+    <string name="settings_reauth_hint">Текущий пароль</string>
+    <string name="settings_reauth_wrong">Неверный пароль</string>
+    <string name="settings_choose_language">Выберите язык системы:</string>
+    <string name="lang_ru">Русский</string>
+    <string name="lang_en">English</string>
+    <string name="settings_ai_topic">ИИ-проверка упражнений</string>
+    <string name="settings_ai_topic_desc">Приложение отправит текст ваших ответов (тема речи, синонимы) в ИИ-сервис для проверки. Без этого проверка проще.</string>
+
+    <string name="study_title">Учёба</string>
+    <string name="study_streak_days">%d ДНЕЙ</string>
+    <string name="study_streak_label">СЕРИЯ</string>
+    <string name="study_daily_goal">Дневная цель: %1$d/%2$d</string>
+    <string name="study_daily_goal_hint">Выполните %d упражнения, чтобы продлить серию!</string>
+    <string name="study_daily_goal_done">Дневная цель выполнена! Серия продлена.</string>
+    <string name="study_categories">Категории упражнений</string>
+    <string name="study_tongue_twisters">Скороговорки</string>
+    <string name="study_tongue_twisters_desc">Прочитайте скороговорку на экране как можно быстрее</string>
+    <string name="study_mindful_speech">Осознанная речь</string>
+    <string name="study_mindful_speech_desc">За три минуты нужно без слов-паразитов рассказать текст на данную тему</string>
+    <string name="study_synonyms">Синонимы</string>
+    <string name="study_synonyms_desc">Подберите как можно больше синонимов к слову</string>
+    <string name="study_coming_soon">Это упражнение скоро появится</string>
+
+    <string name="widget_streak_description">Ваша серия и напоминание пройти урок на сегодня</string>
+    <string name="widget_streak_remind">Пройди урок, чтобы продлить серию</string>
+    <string name="widget_streak_start">Начни серию: пройди урок</string>
+    <string name="widget_streak_progress">Сегодня: %1$d из %2$d</string>
+    <string name="widget_streak_done">Серия продлена!</string>
+    <string name="widget_streak_done_sub">Цель на сегодня выполнена</string>
+    <plurals name="widget_days">
+        <item quantity="one">%d день</item>
+        <item quantity="few">%d дня</item>
+        <item quantity="many">%d дней</item>
+        <item quantity="other">%d дня</item>
+    </plurals>
+    <plurals name="widget_record_days">
+        <item quantity="one">РЕКОРД: %d ДЕНЬ</item>
+        <item quantity="few">РЕКОРД: %d ДНЯ</item>
+        <item quantity="many">РЕКОРД: %d ДНЕЙ</item>
+        <item quantity="other">РЕКОРД: %d ДНЯ</item>
+    </plurals>
+
+</resources>

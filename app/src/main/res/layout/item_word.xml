@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -18,7 +19,7 @@
             android:id="@+id/tvWordTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Типо"
+            tools:text="Типо"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -28,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="слово-паразит, означающее..."
+            tools:text="слово-паразит, означающее..."
             android:textColor="#CCCCCC"
             android:textSize="14sp" />
 
@@ -36,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="На что заменить слово?"
+            tools:text="На что заменить слово?"
             android:textColor="#0000FF"
             android:textStyle="bold" />
 
@@ -44,7 +45,7 @@
             android:id="@+id/tvSynonyms"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="вроде, как будто, наподобие..."
+            tools:text="вроде, как будто, наподобие..."
             android:textColor="@color/white"
             android:textSize="14sp" />
 

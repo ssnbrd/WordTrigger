@@ -48,8 +48,17 @@ public class ArticlesListFragment extends Fragment {
     }
 
     private void loadArticles() {
-        FirebaseFirestore.getInstance().collection("articles").get()
+        loadArticles(AppSettings.contentCollection(requireContext(), "articles"), true);
+    }
+
+    private void loadArticles(String collection, boolean allowFallback) {
+        FirebaseFirestore.getInstance().collection(collection).get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (!isAdded()) return;
+                    if (queryDocumentSnapshots.isEmpty() && allowFallback && !"articles".equals(collection)) {
+                        loadArticles("articles", false);
+                        return;
+                    }
                     list.clear();
                     for (DocumentSnapshot doc : queryDocumentSnapshots) {
                         list.add(doc.toObject(ArticleModel.class));

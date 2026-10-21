@@ -36,7 +36,7 @@ public class UdpService {
                     lastSenderPort = packet.getPort();
 
                     listener.onAudio(packet.getData(), packet.getLength());
-                    Log.d("UDP_DEBUG", "Получен пакет, длина: " + packet.getLength());
+                    Log.d("UDP_DEBUG", "packet, length: " + packet.getLength());
                 }
             } catch (Exception e) { e.printStackTrace(); }
         }).start();

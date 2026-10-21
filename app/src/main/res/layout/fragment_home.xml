@@ -66,7 +66,7 @@
             android:gravity="left"
             android:backgroundTint="@color/blue"
             android:layout_marginTop="10dp"
-            android:text="Получить ИИ-отчет за неделю"
+            android:text="@string/home_report_btn"
             android:textSize="15sp"
             android:textStyle="bold"
             android:textColor="@color/white"
@@ -115,7 +115,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Триггерных слов\nсказано сегодня"
+                        android:text="@string/home_today_label"
                         android:textColor="@color/black"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -147,7 +147,7 @@
                         android:id="@+id/tvDiffLabel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="На столько это\nменьше чем вчера"
+                        android:text="@string/home_diff_default"
                         android:gravity="center"
                         android:textColor="@color/black"
                         android:textSize="12sp" />
@@ -187,7 +187,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Минимально было\nсказано за день"
+                        android:text="@string/home_min_label"
                         android:gravity="center"
                         android:textColor="@color/black"
                         android:textSize="12sp" />
@@ -220,7 +220,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Максимально было\nсказано за день"
+                        android:text="@string/home_max_label"
                         android:gravity="center"
                         android:textColor="@color/black"
                         android:textSize="12sp" />

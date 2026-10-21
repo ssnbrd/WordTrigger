@@ -5,7 +5,6 @@ import android.util.Log;
 import org.json.JSONObject;
 import org.vosk.Model;
 import org.vosk.Recognizer;
-import org.vosk.android.StorageService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +20,7 @@ public class SpeechRecognitionHelper {
     }
 
     private final OnWordDetectedListener listener;
+    private String modelDir = "";
 
     public SpeechRecognitionHelper(Context context, OnWordDetectedListener listener) {
         this.listener = listener;
@@ -28,16 +28,20 @@ public class SpeechRecognitionHelper {
     }
 
     private void initModel(Context context) {
-        StorageService.unpack(context, "model", "model",
-                (model) -> {
-                    try {
-                        recognizer = new Recognizer(model, 16000.0f);
-                        isReady = true;
-                        Log.d("VOSK", "СИСТЕМА ГОТОВА");
-                    } catch (Exception e) { Log.e("VOSK", "Error: " + e.getMessage()); }
-                },
-                (e) -> Log.e("VOSK", "Unpack failed: " + e.getMessage())
-        );
+        // Модель выбирается по языку приложения: assets/model (ru) или assets/model-en (en)
+        modelDir = VoskModelHolder.modelDirFor(context);
+        VoskModelHolder.get(context, new VoskModelHolder.Callback() {
+            @Override public void onReady(Model model) {
+                try {
+                    recognizer = new Recognizer(model, 16000.0f);
+                    isReady = true;
+                    Log.d("VOSK", "READY, model dir: " + VoskModelHolder.modelDirFor(context));
+                } catch (Exception e) { Log.e("VOSK", "Error: " + e.getMessage()); }
+            }
+            @Override public void onError(Exception e) {
+                Log.e("VOSK", "Unpack failed: " + e.getMessage());
+            }
+        });
     }
 
 //    public void processAudio(byte[] buffer, int len) {
@@ -62,6 +66,19 @@ public void processAudio(byte[] buffer, int len) {
         parseAndCheck(recognizer.getPartialResult(), false);
     }
 }
+    /** true, если язык приложения сменили и распознаватель собран на модели другого языка. */
+    public boolean isModelStale(Context context) {
+        return !modelDir.equals(VoskModelHolder.modelDirFor(context));
+    }
+
+    public void release() {
+        isReady = false;
+        if (recognizer != null) {
+            try { recognizer.close(); } catch (Exception ignored) { }
+            recognizer = null;
+        }
+    }
+
     public void setTargetWords(List<String> words) {
         this.targetWords = words;
     }
@@ -71,11 +88,14 @@ public void processAudio(byte[] buffer, int len) {
             String text = obj.optString(isFinal ? "text" : "partial", "");
 
             if (!text.isEmpty()) {
-                Log.d("VOSK_HEARD", "СЛЫШУ: " + text);
+                Log.d("VOSK_HEARD", "HEARD: " + text);
                 listener.onPartialResult(text);
 
+                // слово должно совпасть целиком: «like» не срабатывает на «unlike», «ну» на «рисунок»
+                String padded = " " + text.toLowerCase().replaceAll("\\s+", " ") + " ";
                 for (String target : targetWords) {
-                    if (text.toLowerCase().contains(target.toLowerCase())) {
+                    String t = target == null ? "" : target.trim().toLowerCase();
+                    if (!t.isEmpty() && padded.contains(" " + t + " ")) {
                         listener.onDetected(target);
                         recognizer.reset();
                         break;

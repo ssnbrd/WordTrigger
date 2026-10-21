@@ -31,6 +31,22 @@ public class ProfileFragment extends Fragment {
     private String uid = FirebaseAuth.getInstance().getUid();
     private ChipGroup chipGroup;
 
+    private void showBattery(View v) {
+        int percent = DeviceBattery.get(requireContext());
+        TextView tvPercent = v.findViewById(R.id.tvBatteryPercent);
+        android.widget.ProgressBar pb = v.findViewById(R.id.pbBattery);
+        View hint = v.findViewById(R.id.tvBatteryHint);
+        if (percent < 0) {
+            tvPercent.setText("—");
+            pb.setProgress(0);
+            hint.setVisibility(View.VISIBLE);
+        } else {
+            tvPercent.setText(percent + "%");
+            pb.setProgress(percent);
+            hint.setVisibility(View.GONE);
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_profile, container, false);
@@ -41,23 +57,37 @@ public class ProfileFragment extends Fragment {
         Button btnSaveContext = v.findViewById(R.id.btnSaveContext);
         ImageView btnBack = v.findViewById(R.id.btnBack);
 
+        ImageView ivAvatar = v.findViewById(R.id.ivAvatar);
+        AvatarStore.showLocal(requireContext(), ivAvatar);
+
         db.collection("users").document(uid).get().addOnSuccessListener(doc -> {
             if (doc.exists()) {
                 tvName.setText(doc.getString("username"));
+                if (isAdded()) AvatarStore.syncFromDoc(requireContext(), doc, ivAvatar);
             }
         });
 
+        // нажатие на аватарку или имя открывает настройки
+        View.OnClickListener openSettings = view ->
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, new SettingsFragment())
+                        .addToBackStack(null)
+                        .commit();
+        v.findViewById(R.id.layoutUserHeader).setOnClickListener(openSettings);
+        v.findViewById(R.id.ivSettings).setOnClickListener(openSettings);
+        showBattery(v);
+
         logoutBtn.setOnClickListener(view -> {
             new com.google.android.material.dialog.MaterialAlertDialogBuilder(getContext())
-                    .setTitle("Выход")
-                    .setMessage("Вы уверены, что хотите выйти из аккаунта?")
-                    .setPositiveButton("Выйти", (dialogInterface, i) -> {
+                    .setTitle(getString(R.string.profile_logout_title))
+                    .setMessage(getString(R.string.profile_logout_msg))
+                    .setPositiveButton(getString(R.string.profile_logout_yes), (dialogInterface, i) -> {
                         FirebaseAuth.getInstance().signOut();
                         Intent intent = new Intent(getActivity(), WelcomeActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                     })
-                    .setNegativeButton("Отмена", null)
+                    .setNegativeButton(getString(R.string.auth_cancel), null)
                     .show();
                     //.getWindow().setBackgroundDrawableResource(android.R.color.white);
         });
@@ -89,9 +119,9 @@ public class ProfileFragment extends Fragment {
                     "active_contexts", selectedContexts,
                     "last_context_date", today
             ).addOnSuccessListener(aVoid -> {
-                Toast.makeText(getContext(), "Контекст сохранен на сегодня!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.profile_context_saved), Toast.LENGTH_SHORT).show();
             }).addOnFailureListener(e -> {
-                Toast.makeText(getContext(), "Ошибка сохранения", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.profile_save_error), Toast.LENGTH_SHORT).show();
             });
         });
         btnBack.setOnClickListener(view -> {
@@ -101,6 +131,13 @@ public class ProfileFragment extends Fragment {
         v.findViewById(R.id.cardArticles).setOnClickListener(view -> {
             getParentFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, new ArticlesListFragment())
+                    .addToBackStack(null)
+                    .commit();
+        });
+
+        v.findViewById(R.id.cardLibrary).setOnClickListener(view -> {
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new LibraryFragment())
                     .addToBackStack(null)
                     .commit();
         });

@@ -45,13 +45,22 @@ public class LibraryFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         view.findViewById(R.id.returnBut).setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), ProfileFragment.class);
-            startActivity(intent);
+            getParentFragmentManager().popBackStack();
         });
     }
 
     private void loadWords() {
-        db.collection("words_library").get().addOnCompleteListener(task -> {
+        loadWords(AppSettings.contentCollection(requireContext(), "words_library"), true);
+    }
+
+    /** Для английского читаем words_library_en; если коллекции ещё нет, показываем основную. */
+    private void loadWords(String collection, boolean allowFallback) {
+        db.collection(collection).get().addOnCompleteListener(task -> {
+            if (!isAdded()) return;
+            if (task.isSuccessful() && task.getResult().isEmpty() && allowFallback && !"words_library".equals(collection)) {
+                loadWords("words_library", false);
+                return;
+            }
             if (task.isSuccessful()) {
                 wordList.clear();
                 for (QueryDocumentSnapshot document : task.getResult()) {

@@ -104,7 +104,6 @@ public class HomeFragment extends Fragment {
             }
         }
         root.findViewById(R.id.btnGetReport).setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Подготовка отчета...", Toast.LENGTH_SHORT).show();
             getAIWeeklyReport();
         });
 
@@ -118,7 +117,7 @@ public class HomeFragment extends Fragment {
             return;
         }
 
-        LineDataSet dataSet = new LineDataSet(entries, "Слова-паразиты");
+        LineDataSet dataSet = new LineDataSet(entries, getString(R.string.home_chart_label));
 
         dataSet.setColor(Color.parseColor("#0000FF"));
         dataSet.setLineWidth(3f);
@@ -139,7 +138,7 @@ public class HomeFragment extends Fragment {
         lineChart.getDescription().setEnabled(false);
         lineChart.getLegend().setEnabled(false);
 
-        String[] days = {"Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"};
+        String[] days = getResources().getStringArray(R.array.weekdays_short);
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setValueFormatter(new IndexAxisValueFormatter(days));
@@ -175,8 +174,10 @@ public class HomeFragment extends Fragment {
         String uid = FirebaseAuth.getInstance().getUid();
         if (uid == null) return;
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        String todayStr = sdf.format(new Date());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        String todayStr = StudyProgress.dateString(0);
+
+        String yesterdayStr = StudyProgress.dateString(-1);
 
         java.util.Calendar cal = java.util.Calendar.getInstance();
         cal.setFirstDayOfWeek(java.util.Calendar.MONDAY);
@@ -191,7 +192,6 @@ public class HomeFragment extends Fragment {
         int delta = (dayOfWeek == java.util.Calendar.SUNDAY) ? -6 : (java.util.Calendar.MONDAY - dayOfWeek);
         cal.add(java.util.Calendar.DAY_OF_YEAR, delta);
         Date mondayStart = cal.getTime();
-        String yesterdayStr = sdf.format(cal.getTime());
 
         db.collection("users").document(uid).collection("history")
                 .get()
@@ -237,6 +237,10 @@ public class HomeFragment extends Fragment {
 
     private void updateUI(int[] dailyCounts, int today, int yesterday, int max, int min) {
         countToday.setText(String.valueOf(today));
+        if (getContext() != null) {
+            FillerCounter.set(getContext(), today);
+            FillerCounter.setYesterday(getContext(), yesterday);
+        }
         tvMaxDaily.setText(String.valueOf(max));
         tvMinDaily.setText(String.valueOf(min == Integer.MAX_VALUE ? 0 : min));
 
@@ -244,12 +248,12 @@ public class HomeFragment extends Fragment {
         tvComparisonYesterday.setText(String.valueOf(Math.abs(diff)));
 
         if (diff > 0) {
-            tvDiffLabel.setText("На " + diff + " меньше, чем вчера");
+            tvDiffLabel.setText(getString(R.string.home_diff_less, diff));
         } else if (diff < 0) {
-            tvDiffLabel.setText("На " + Math.abs(diff) + " больше, чем вчера");
+            tvDiffLabel.setText(getString(R.string.home_diff_more, Math.abs(diff)));
         }
         else {
-            tvDiffLabel.setText("Столько же, сколько вчера");
+            tvDiffLabel.setText(getString(R.string.home_diff_same));
         }
 
         ArrayList<Entry> entries = new ArrayList<>();
@@ -260,71 +264,52 @@ public class HomeFragment extends Fragment {
     }
     private void getAIWeeklyReport() {
         String uid = FirebaseAuth.getInstance().getUid();
+        if (uid == null) return;
+        android.widget.Toast.makeText(requireContext(), R.string.ai_report_loading, android.widget.Toast.LENGTH_SHORT).show();
+
         db.collection("users").document(uid).collection("history")
+                .whereGreaterThanOrEqualTo(com.google.firebase.firestore.FieldPath.documentId(), StudyProgress.dateString(-6))
                 .get()
                 .addOnSuccessListener(snapshots -> {
-                    StringBuilder statsSummary = new StringBuilder();
+                    if (!isAdded()) return;
+                    java.util.List<LocalReport.Day> days = new ArrayList<>();
+                    StringBuilder stats = new StringBuilder();
                     for (QueryDocumentSnapshot doc : snapshots) {
-                        statsSummary.append("День: ").append(doc.getId())
-                                .append(". Контексты: ").append(doc.get("active_contexts"))
-                                .append(". Всего паразитов: ").append(doc.get("total_count")).append("; ");
+                        Long total = doc.getLong("total_count");
+                        java.util.List<String> ctx = (java.util.List<String>) doc.get("active_contexts");
+                        int count = total == null ? 0 : total.intValue();
+                        days.add(new LocalReport.Day(doc.getId(), count, ctx));
+                        stats.append(getString(R.string.ai_report_day_line, doc.getId(),
+                                ctx == null || ctx.isEmpty() ? "-" : android.text.TextUtils.join(", ", ctx), count));
                     }
-                    sendRequestToGroq(statsSummary.toString());
+                    if (days.isEmpty()) {
+                        showAiReportDialog(getString(R.string.ai_report_local_title), getString(R.string.ai_report_empty));
+                        return;
+                    }
+
+                    LlmClient.chat(requireContext(), getString(R.string.ai_report_system),
+                            getString(R.string.ai_report_user, stats.toString()), 700, "weekly_report",
+                            new LlmClient.Callback() {
+                                @Override public void onResult(String text) {
+                                    if (isAdded()) showAiReportDialog(getString(R.string.ai_report_title), text);
+                                }
+                                @Override public void onError(LlmClient.Kind kind, String detail) {
+                                    if (!isAdded()) return;
+                                    showAiReportDialog(getString(R.string.ai_report_local_title),
+                                            LocalReport.build(requireContext(), days) + "\n\n"
+                                                    + getString(R.string.ai_report_local_note) + "\n"
+                                                    + getString(R.string.ai_report_reason,
+                                                    LlmClient.explain(requireContext(), kind, detail)));
+                                }
+                            });
                 });
     }
-    private void sendRequestToGroq(String fullStats) {
-        new Thread(() -> {
-            try {
-                JSONObject jsonBody = new JSONObject();
-                jsonBody.put("model", "llama-3.1-8b-instant");
 
-                org.json.JSONArray messages = new org.json.JSONArray();
-
-                JSONObject systemMsg = new JSONObject();
-                systemMsg.put("role", "system");
-                systemMsg.put("content", "Ты лингвист-психолог. Проанализируй данные речи (количество слов-паразитов за период) и контексты речи, отмеченные пользователем в различные дни. Отвечай на русском и ответ не должен иметь продолжение, ответ должен иметь логическое завершение и содержать анализ речи и упражнения для индивидуального плана улучшения речи (для дикции, речевого дыхания и отсутствия слов-паразитов).");
-
-                JSONObject userMsg = new JSONObject();
-                userMsg.put("role", "user");
-                userMsg.put("content", "Мои данные за неделю: " + fullStats);
-
-                messages.put(systemMsg);
-                messages.put(userMsg);
-                jsonBody.put("messages", messages);
-
-                URL url = new URL("https://api.groq.com/openai/v1/chat/completions");
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setRequestMethod("POST");
-                conn.setRequestProperty("Authorization", "Bearer " + BuildConfig.GROQ_API_KEY);
-                conn.setRequestProperty("Content-Type", "application/json");
-                conn.setDoOutput(true);
-
-                try (OutputStream os = conn.getOutputStream()) {
-                    os.write(jsonBody.toString().getBytes("UTF-8"));
-                }
-
-                if (conn.getResponseCode() == 200) {
-                    Scanner s = new Scanner(conn.getInputStream(), "UTF-8").useDelimiter("\\A");
-                    String response = s.hasNext() ? s.next() : "";
-                    JSONObject respJson = new JSONObject(response);
-                    String aiText = respJson.getJSONArray("choices").getJSONObject(0).getJSONObject("message").getString("content");
-
-                    getActivity().runOnUiThread(() -> showAiReportDialog(aiText));
-                } else {
-                    Scanner s = new Scanner(conn.getErrorStream(), "UTF-8").useDelimiter("\\A");
-                    Log.e("GROQ_ERROR", "Server returned: " + conn.getResponseCode() + " " + (s.hasNext() ? s.next() : ""));
-                }
-            } catch (Exception e) {
-                Log.e("GROQ_ERROR", "Crash", e);
-            }
-        }).start();
-    }
-
-    private void showAiReportDialog(String text) {
+    private void showAiReportDialog(String title, String text) {
         new com.google.android.material.dialog.MaterialAlertDialogBuilder(requireContext())
-                .setTitle("Аналитический отчет ИИ")
+                .setTitle(title)
                 .setMessage(text)
-                .setPositiveButton("Понятно", null)
+                .setPositiveButton(R.string.ai_report_ok, null)
                 .show();
     }
     private boolean isSameDay(Date date1, Date date2) {
@@ -333,28 +318,24 @@ public class HomeFragment extends Fragment {
     }
     private void showAboutUsDialog(){
         new com.google.android.material.dialog.MaterialAlertDialogBuilder(requireContext())
-                .setTitle("Об авторе проекта")
-                .setMessage("Система контроля культуры речи\n Автор: Софья Бурда\n" +
-                        "Контакты: ssnbrd3@gmail.com\n Ссылка проекта на Github: https://github.com/ssnbrd/WordTrigger\n" +
-                        "Научный руководитель: Андрейчук Александр Олегович")
-                .setPositiveButton("Понятно", null)
+                .setTitle(R.string.home_about_title)
+                .setMessage(R.string.home_about_msg)
+                .setPositiveButton(R.string.ai_report_ok, null)
                 .show();
     }
     private void showHelpDialog() {
         new com.google.android.material.dialog.MaterialAlertDialogBuilder(requireContext())
-                .setTitle("Как пользоваться системой?")
-                .setMessage("1. Включите устройство.\n2. Проверьте интернет соединение и в приложении нажмите Запустить систему.\n" +
-                        "3. Выберите контекст в профиле и загрузите его.\n4. Если вы скажете слово-паразит, устройство завибрирует.\n" +
-                        "5. Вечером отключите систему и получите ИИ-отчет!")
-                .setPositiveButton("Понятно", null)
+                .setTitle(R.string.home_help_title)
+                .setMessage(R.string.home_help_msg)
+                .setPositiveButton(R.string.ai_report_ok, null)
                 .show();
     }
 
     private void shareProgress() {
-        String message = "Мой прогресс в WordTrigger: сегодня я сказал " + countToday.getText() + " слов-паразитов.";
+        String message = getString(R.string.home_share_msg, String.valueOf(countToday.getText()));
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_TEXT, message);
-        startActivity(Intent.createChooser(intent, "Поделиться"));
+        startActivity(Intent.createChooser(intent, getString(R.string.home_share_title)));
     }
 }

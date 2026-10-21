@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="11dp"
             android:layout_toEndOf="@id/returnBut"
-            android:text="Connect"
+            android:text="@string/connect_title"
             android:textColor="@color/white"
             android:textSize="24sp"
             android:textStyle="bold" />
@@ -46,7 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:backgroundTint="@color/blue"
-            android:text="Запустить систему"
+            android:text="@string/connect_start"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="@color/white" />
@@ -58,7 +58,7 @@
             android:layout_below="@id/btnStart"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
-            android:text="Ожидание..."
+            android:text="@string/connect_waiting"
             android:textColor="#888888" />
     </RelativeLayout>
     <!--
@@ -66,7 +66,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:text="Заряд аккумулятора устройства"
+            android:text="@string/profile_battery_title"
             android:textColor="@color/white"
             android:textStyle="bold" />
 
@@ -104,7 +104,7 @@
                     android:id="@+id/tvDeviceStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Найти устройство"
+                    android:text="@string/connect_find_title"
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     android:textSize="18sp" />
@@ -112,7 +112,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Если ваше устройство подключено, вы можете найти его запустив серию вибросигналов"
+                    android:text="@string/connect_find_desc"
                     android:textColor="#333333"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -121,7 +121,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:text="Мои триггерные слова"
+            android:text="@string/connect_my_words"
             android:textColor="@color/white"
             android:textSize="22dp"
             android:textStyle="bold" />
@@ -140,7 +140,7 @@
                 app:chipBackgroundColor="@color/chip_bg_selector"
                 android:textColor="@color/chip_text_color"
                 app:chipStrokeWidth="0dp"
-                android:text="Короче" />
+                android:text="@string/parasite_1" />
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip2"
                 style="@style/Widget.MaterialComponents.Chip.Filter"
@@ -149,7 +149,7 @@
                 app:chipBackgroundColor="@color/chip_bg_selector"
                 android:textColor="@color/chip_text_color"
                 app:chipStrokeWidth="0dp"
-                android:text="Ну " />
+                android:text="@string/parasite_2" />
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip3"
                 style="@style/Widget.MaterialComponents.Chip.Filter"
@@ -158,7 +158,7 @@
                 app:chipBackgroundColor="@color/chip_bg_selector"
                 android:textColor="@color/chip_text_color"
                 app:chipStrokeWidth="0dp"
-                android:text="Блин" />
+                android:text="@string/parasite_3" />
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip4"
                 style="@style/Widget.MaterialComponents.Chip.Filter"
@@ -167,7 +167,7 @@
                 app:chipBackgroundColor="@color/chip_bg_selector"
                 android:textColor="@color/chip_text_color"
                 app:chipStrokeWidth="0dp"
-                android:text="Как бы" />
+                android:text="@string/parasite_4" />
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip5"
                 style="@style/Widget.MaterialComponents.Chip.Filter"
@@ -176,7 +176,7 @@
                 app:chipBackgroundColor="@color/chip_bg_selector"
                 android:textColor="@color/chip_text_color"
                 app:chipStrokeWidth="0dp"
-                android:text="В общем" />
+                android:text="@string/parasite_5" />
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip6"
                 style="@style/Widget.MaterialComponents.Chip.Filter"
@@ -185,7 +185,7 @@
                 app:chipBackgroundColor="@color/chip_bg_selector"
                 android:textColor="@color/chip_text_color"
                 app:chipStrokeWidth="0dp"
-                android:text="Черт" />
+                android:text="@string/parasite_6" />
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip7"
                 style="@style/Widget.MaterialComponents.Chip.Filter"
@@ -194,7 +194,7 @@
                 app:chipBackgroundColor="@color/chip_bg_selector"
                 android:textColor="@color/chip_text_color"
                 app:chipStrokeWidth="0dp"
-                android:text="Жесть" />
+                android:text="@string/parasite_7" />
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip8"
                 style="@style/Widget.MaterialComponents.Chip.Filter"
@@ -203,7 +203,7 @@
                 app:chipBackgroundColor="@color/chip_bg_selector"
                 android:textColor="@color/chip_text_color"
                 app:chipStrokeWidth="0dp"
-                android:text="По итогу" />
+                android:text="@string/parasite_8" />
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip9"
                 style="@style/Widget.MaterialComponents.Chip.Filter"
@@ -212,7 +212,7 @@
                 app:chipBackgroundColor="@color/chip_bg_selector"
                 android:textColor="@color/chip_text_color"
                 app:chipStrokeWidth="0dp"
-                android:text="Это самое" />
+                android:text="@string/parasite_9" />
         </com.google.android.material.chip.ChipGroup>
 
         <LinearLayout
@@ -229,7 +229,7 @@
                 android:maxLength="20"
                 android:maxLines="1"
                 android:background="@drawable/white_rounded_edittext"
-                android:hint="Добавить свое слово..."
+                android:hint="@string/connect_add_hint"
                 android:textSize="15dp"
                 android:paddingStart="15dp" />
 
@@ -247,7 +247,7 @@
             android:layout_height="55dp"
             android:layout_marginTop="15dp"
             android:backgroundTint="@color/blue"
-            android:text="Применить список"
+            android:text="@string/connect_apply"
             android:textStyle="bold"/>
 </LinearLayout>
     </androidx.core.widget.NestedScrollView>

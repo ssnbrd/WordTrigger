@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="11dp"
             android:layout_toEndOf="@id/returnBut"
-            android:text="Sign In"
+            android:text="@string/auth_sign_in_title"
             android:textColor="@color/white"
             android:textSize="24sp"
             android:textStyle="bold" />
@@ -50,7 +50,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="50dp"
         android:background="@drawable/white_rounded_edittext"
-        android:hint="Email Address" />
+        android:hint="@string/auth_email" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
@@ -65,7 +65,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/white_rounded_edittext"
-            android:hint="Password"
+            android:hint="@string/auth_password"
             android:inputType="textPassword"
             android:paddingStart="15dp" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -76,7 +76,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="40dp"
         android:backgroundTint="@color/white"
-        android:text="SIGN IN"
+        android:text="@string/auth_sign_in_btn"
         android:textColor="@color/black" />
 
     <TextView
@@ -84,7 +84,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="Forgot Your Password?"
+        android:text="@string/auth_forgot"
         android:textColor="#AAAAAA" />
     <TextView
         android:id="@+id/tvToSignUp"
@@ -92,6 +92,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        android:text="Don't have an account yet? Sign Up"
+        android:text="@string/auth_to_sign_up"
         android:textColor="@color/white" />
 </LinearLayout>

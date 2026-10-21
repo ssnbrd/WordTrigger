@@ -34,7 +34,7 @@ public class MonitoringService extends Service {
     public static final String ACTION_STATUS_UPDATE = "com.example.wordtrigger.STATUS_UPDATE";
     public static final String EXTRA_HEARTBEAT = "is_alive";
     public static final String EXTRA_TEXT = "heard_text";
-    private String activeContext = "Общее";
+    private String activeContext = "";
 
     private UdpService udpService;
     private SpeechRecognitionHelper speechHelper;
@@ -64,26 +64,28 @@ public class MonitoringService extends Service {
         wifiLock = wm.createWifiLock(WifiManager.WIFI_MODE_FULL_HIGH_PERF, "WordTrigger:WifiLock");
         wifiLock.acquire();
 
-        speechHelper = new SpeechRecognitionHelper(this, new SpeechRecognitionHelper.OnWordDetectedListener() {
-            @Override
-            public void onDetected(String word) {
-                if (udpService != null) udpService.sendVibrate();
-                saveEvent(word);
-            }
-            @Override
-            public void onPartialResult(String partialText) {
-                broadcastStatus(true, partialText);
-            }
-        });
+        speechHelper = createSpeechHelper();
 
         udpService = new UdpService((data, len) -> {
             lastPacketTime = System.currentTimeMillis();
+            int battery = DeviceBattery.parsePacket(data, len);
+            if (battery >= 0) {               // пакет «B:xx» - это заряд, а не звук
+                DeviceBattery.save(getApplicationContext(), battery);
+                return;
+            }
             speechHelper.processAudio(data, len);
         });
 
         statusHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                // язык приложения сменили: пересобираем распознаватель на модели нового языка
+                if (speechHelper != null && speechHelper.isModelStale(MonitoringService.this)) {
+                    List<String> words = currentTargetWords;
+                    speechHelper.release();
+                    speechHelper = createSpeechHelper();
+                    if (words != null) speechHelper.setTargetWords(words);
+                }
                 boolean isAlive = (System.currentTimeMillis() - lastPacketTime) < 3000;
                 broadcastStatus(isAlive, null);
                 statusHandler.postDelayed(this, 2000);
@@ -94,6 +96,7 @@ public class MonitoringService extends Service {
             if (snapshot != null && snapshot.exists()) {
                 List<String> wordsFromDb = (List<String>) snapshot.get("trigger_words");
                 if (wordsFromDb != null && speechHelper != null) {
+                    currentTargetWords = wordsFromDb;
                     speechHelper.setTargetWords(wordsFromDb);
                 }
             }
@@ -113,6 +116,7 @@ public class MonitoringService extends Service {
         sendBroadcast(intent);
     }
     private void saveEvent(String word) {
+        FillerCounter.increment(this);
         String uid = FirebaseAuth.getInstance().getUid();
         String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
@@ -135,6 +139,22 @@ public class MonitoringService extends Service {
         });
     }
 
+    private List<String> currentTargetWords;
+
+    private SpeechRecognitionHelper createSpeechHelper() {
+        return new SpeechRecognitionHelper(this, new SpeechRecognitionHelper.OnWordDetectedListener() {
+            @Override
+            public void onDetected(String word) {
+                if (udpService != null) udpService.sendVibrate();
+                saveEvent(word);
+            }
+            @Override
+            public void onPartialResult(String partialText) {
+                broadcastStatus(true, partialText);
+            }
+        });
+    }
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent != null && "ACTION_STOP_SERVICE".equals(intent.getAction())) {
@@ -147,11 +167,11 @@ public class MonitoringService extends Service {
         stopIntent.setAction("ACTION_STOP_SERVICE");
         PendingIntent stopPendingIntent = PendingIntent.getService(this, 0, stopIntent, PendingIntent.FLAG_IMMUTABLE);
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("WordTrigger активен")
-                .setContentText("Анализирую вашу речь...")
+                .setContentTitle(getString(R.string.notif_title))
+                .setContentText(getString(R.string.notif_text))
                 .setSmallIcon(R.drawable.logo_black)
                 .setColor(ContextCompat.getColor(this, R.color.black))
-                .addAction(R.drawable.ic_stop, "Остановить", stopPendingIntent)
+                .addAction(R.drawable.ic_stop, getString(R.string.notif_stop), stopPendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_LOW)
                 .build();
         startForeground(1, notification);

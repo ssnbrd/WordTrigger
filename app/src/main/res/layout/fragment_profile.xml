@@ -26,17 +26,29 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="11dp"
                 android:layout_toEndOf="@id/btnBack"
-                android:text="User"
+                android:text="@string/profile_title"
                 android:textColor="@color/white"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
             <ImageView
+                android:id="@+id/ivSettings"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginEnd="24dp"
+                android:layout_toStartOf="@id/ivLogout"
+                android:contentDescription="@string/settings_title"
+                android:src="@drawable/ic_settings"
+                app:tint="@color/white" />
+
+            <ImageView
                 android:id="@+id/ivLogout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_exit"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:layout_alignParentEnd="true"
+                android:layout_marginEnd="0dp"
+                android:contentDescription="@string/profile_logout_title"
+                android:src="@drawable/ic_exit"
                 app:tint="@color/white" />
 
             <View
@@ -47,30 +59,99 @@
         </RelativeLayout>
 
         <LinearLayout
+            android:id="@+id/layoutUserHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
+            android:background="?attr/selectableItemBackground"
             android:layout_marginTop="30dp">
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivAvatar"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:src="@drawable/ic_user_circle" />
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_user_circle"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.App.CircleImageView" />
             <TextView
                 android:id="@+id/tvUserName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:text="Username"
+                android:text="@string/profile_username_placeholder"
                 android:textStyle="bold"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/ic_edit"
+                app:tint="@color/light_gray" />
         </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            app:cardBackgroundColor="@color/dark_gray"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile_battery_title"
+                        android:textColor="@color/light_gray"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvBatteryPercent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:text="—"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+                <ProgressBar
+                    android:id="@+id/pbBattery"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:layout_marginTop="10dp"
+                    android:max="100"
+                    android:progress="0"
+                    android:progressDrawable="@drawable/progress_daily_goal" />
+
+                <TextView
+                    android:id="@+id/tvBatteryHint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/profile_battery_unknown"
+                    android:textColor="@color/light_gray"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:text="Какой контекст речи сегодня?"
+            android:text="@string/profile_context_title"
             android:textSize="22dp"
             android:textColor="@color/white"
             android:textStyle="bold" />
@@ -89,7 +170,7 @@
                 app:chipBackgroundColor="@color/chip_bg_selector"
                 android:textColor="@color/chip_text_color"
                 app:chipStrokeWidth="0dp"
-                android:text="Работа" />
+                android:text="@string/ctx_work" />
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
@@ -97,7 +178,7 @@
                 app:chipBackgroundColor="@color/chip_bg_selector"
                 android:textColor="@color/chip_text_color"
                 app:chipStrokeWidth="0dp"
-                android:text="Семья" />
+                android:text="@string/ctx_family" />
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
@@ -105,7 +186,7 @@
                 app:chipBackgroundColor="@color/chip_bg_selector"
                 android:textColor="@color/chip_text_color"
                 app:chipStrokeWidth="0dp"
-                android:text="Публичное выступление" />
+                android:text="@string/ctx_public" />
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
@@ -113,7 +194,7 @@
                 app:chipBackgroundColor="@color/chip_bg_selector"
                 android:textColor="@color/chip_text_color"
                 app:chipStrokeWidth="0dp"
-                android:text="Общение с друзьями" />
+                android:text="@string/ctx_friends" />
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
@@ -121,7 +202,7 @@
                 app:chipBackgroundColor="@color/chip_bg_selector"
                 android:textColor="@color/chip_text_color"
                 app:chipStrokeWidth="0dp"
-                android:text="Конфликтная ситуация" />
+                android:text="@string/ctx_conflict" />
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
@@ -129,7 +210,7 @@
                 app:chipBackgroundColor="@color/chip_bg_selector"
                 android:textColor="@color/chip_text_color"
                 app:chipStrokeWidth="0dp"
-                android:text="Разговор с незнакомцем" />
+                android:text="@string/ctx_stranger" />
 
         </com.google.android.material.chip.ChipGroup>
 
@@ -139,7 +220,7 @@
             android:layout_height="41dp"
             android:layout_marginTop="15dp"
             android:backgroundTint="@color/blue"
-            android:text="Загрузить контекст на сегодня"
+            android:text="@string/profile_context_save"
             android:textStyle="bold"
             android:textColor="@color/white" />
 
@@ -158,7 +239,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Техники улучшения культуры речи"
+                    android:text="@string/profile_articles_title"
                     android:textSize="20dp"
                     android:textColor="@color/black"
                     android:textStyle="bold" />
@@ -174,7 +255,55 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
-                        android:text="Перейти "
+                        android:text="@string/profile_go"
+                        android:textColor="@color/blue"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="5dp"
+                        android:src="@drawable/ic_arrow_forward"
+                        app:tint="@color/blue" />
+                </RelativeLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardLibrary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="15dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/profile_word_library"
+                    android:textSize="20dp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:id="@+id/tvLibraryGo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/profile_go"
                         android:textColor="@color/blue"
                         android:textStyle="bold" />
 

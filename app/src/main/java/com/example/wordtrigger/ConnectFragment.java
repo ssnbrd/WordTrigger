@@ -55,10 +55,10 @@ public class ConnectFragment extends Fragment {
                 String heardText = intent.getStringExtra(MonitoringService.EXTRA_TEXT);
 
                 if (isAlive) {
-                    tvConnectionStatus.setText("Устройство подключено");
+                    tvConnectionStatus.setText(getString(R.string.connect_device_on));
                     tvConnectionStatus.setTextColor(Color.parseColor("#0000FF"));
                 } else {
-                    tvConnectionStatus.setText("Поиск устройства...");
+                    tvConnectionStatus.setText(getString(R.string.connect_device_search));
                     tvConnectionStatus.setTextColor(Color.parseColor("#121314"));
                 }
                 if (heardText != null) statusText.setText(heardText);
@@ -92,13 +92,13 @@ public class ConnectFragment extends Fragment {
                 } else {
                     getContext().startService(serviceIntent);
                 }
-                btnStart.setText("Остановить систему");
+                btnStart.setText(getString(R.string.connect_stop));
                 isServiceRunning = true;
             } else {
                 getContext().stopService(serviceIntent);
-                btnStart.setText("Запустить систему");
+                btnStart.setText(getString(R.string.connect_start));
                 isServiceRunning = false;
-                tvConnectionStatus.setText("Система выключена");
+                tvConnectionStatus.setText(getString(R.string.connect_system_off));
                 tvConnectionStatus.setTextColor(Color.GRAY);
             }
         });
@@ -130,7 +130,7 @@ public class ConnectFragment extends Fragment {
             }
 
             db.collection("users").document(uid).update("trigger_words", selectedWords)
-                    .addOnSuccessListener(aVoid -> Toast.makeText(getContext(), "Список обновлен!", Toast.LENGTH_SHORT).show());
+                    .addOnSuccessListener(aVoid -> Toast.makeText(getContext(), getString(R.string.connect_list_updated), Toast.LENGTH_SHORT).show());
         });
 
         btnAddWord.setOnClickListener(v -> {
@@ -159,17 +159,17 @@ public class ConnectFragment extends Fragment {
                 chip.setChipStrokeWidth(0f);
 
                 if (!newWord.matches("^[a-zA-Zа-яА-ЯёЁ\\s]+$")) {
-                    Toast.makeText(getContext(), "Цифры и символы запрещены", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.connect_err_symbols), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if (newWord.length() > 20) {
-                    Toast.makeText(getContext(), "Слишком длинная фраза", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.connect_err_long), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if (newWord.contains("\n") || newWord.contains("\r")) {
-                    Toast.makeText(getContext(), "Переносы строк запрещены", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.connect_err_newline), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -180,7 +180,7 @@ public class ConnectFragment extends Fragment {
         loadTriggerWords();
     }
 
-    private final String[] defaultWords = {"короче", "типа", "ну ", "блин"};
+    private String[] defaultWords() { return getResources().getStringArray(R.array.default_trigger_words); }
 
     private void loadTriggerWords() {
         db.collection("users").document(uid).get().addOnSuccessListener(doc -> {
@@ -194,7 +194,7 @@ public class ConnectFragment extends Fragment {
                     addChipToGroup(word, true);
                 }
 
-                for (String dw : defaultWords) {
+                for (String dw : defaultWords()) {
                     if (!savedWords.contains(dw)) {
                         addChipToGroup(dw, false);
                     }
@@ -238,7 +238,7 @@ public class ConnectFragment extends Fragment {
 
 
     private boolean isDefaultWord(String word) {
-        for (String s : defaultWords) if (s.equalsIgnoreCase(word)) return true;
+        for (String s : defaultWords()) if (s.equalsIgnoreCase(word)) return true;
         return false;
     }
 

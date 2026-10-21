@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        EdgeInsets.apply(this);
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
 
@@ -30,13 +31,19 @@ public class MainActivity extends AppCompatActivity {
             if (id == R.id.nav_home) selectedFragment = new HomeFragment();
             else if (id == R.id.nav_connect) selectedFragment = new ConnectFragment();
             else if (id == R.id.nav_profile) selectedFragment = new ProfileFragment();
-            else if (id == R.id.nav_library) selectedFragment = new LibraryFragment();
+            else if (id == R.id.nav_library) selectedFragment = new StudyFragment();
 
             if (selectedFragment != null) {
+                getSupportFragmentManager().popBackStack(null, androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, selectedFragment).commit();
             }
             return true;
         });
+
+        // виджет серии открывает вкладку «Учёба»
+        if (savedInstanceState == null && getIntent().getBooleanExtra(StreakWidgetProvider.EXTRA_OPEN_STUDY, false)) {
+            bottomNav.setSelectedItemId(R.id.nav_library);
+        }
     }
 }

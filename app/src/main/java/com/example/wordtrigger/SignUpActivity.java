@@ -22,6 +22,7 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+        EdgeInsets.apply(this);
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -49,12 +50,12 @@ public class SignUpActivity extends AppCompatActivity {
             String phone = etPhone.getText().toString().trim();
 
             if (email.isEmpty() || pass.isEmpty() || username.isEmpty() || phone.isEmpty()) {
-                Toast.makeText(this, "Заполните все поля!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.auth_fill_all), Toast.LENGTH_SHORT).show();
                 return;
             }
 
             if (pass.length() < 8) {
-                Toast.makeText(this, "Пароль должен быть не меньше 8 символов", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.auth_password_short), Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -70,16 +71,16 @@ public class SignUpActivity extends AppCompatActivity {
                     db.collection("users").document(uid)
                             .set(user)
                             .addOnSuccessListener(aVoid -> {
-                                Toast.makeText(this, "Успешная регистрация!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this, getString(R.string.auth_signup_ok), Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(this, MainActivity.class));
                                 finish();
                             })
                             .addOnFailureListener(e -> {
-                                Toast.makeText(this, "Ошибка сохранения данных в БД", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this, getString(R.string.auth_db_error), Toast.LENGTH_SHORT).show();
                             });
 
                 } else {
-                    Toast.makeText(this, "Ошибка регистрации: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.auth_signup_error, String.valueOf(task.getException() == null ? "" : task.getException().getMessage())), Toast.LENGTH_SHORT).show();
                 }
             });
         });

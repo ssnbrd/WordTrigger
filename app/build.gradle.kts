@@ -32,9 +32,18 @@ android {
         if (localPropertiesFile.exists()) {
             localProperties.load(localPropertiesFile.inputStream())
         }
-        val groqApiKey = localProperties.getProperty("GROQ_API_KEY") ?: ""
 
-        buildConfigField("String", "GROQ_API_KEY", "\"$groqApiKey\"")
+        val llmApiKey = (localProperties.getProperty("LLM_API_KEY") ?: "").trim()
+        val llmBaseUrl = (localProperties.getProperty("LLM_BASE_URL") ?: "https://openrouter.ai/api/v1").trim()
+        val llmModels = localProperties.getProperty("LLM_MODELS")
+            ?: localProperties.getProperty("LLM_MODEL")
+            ?: "google/gemma-4-26b-a4b-it:free,nvidia/nemotron-3-ultra-550b-a55b:free"
+        val llmProject = localProperties.getProperty("LLM_PROJECT") ?: ""
+
+        buildConfigField("String", "LLM_API_KEY", "\"$llmApiKey\"")
+        buildConfigField("String", "LLM_BASE_URL", "\"$llmBaseUrl\"")
+        buildConfigField("String", "LLM_MODELS", "\"$llmModels\"")
+        buildConfigField("String", "LLM_PROJECT", "\"$llmProject\"")
     }
 
     buildTypes {

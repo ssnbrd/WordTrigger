@@ -2,4 +2,358 @@
     <string name="app_name">WordTrigger</string>
     <string name="hello_blank_fragment">WordTrigger</string>
     <string name="description">A mobile app for working with the speech culture monitoring system. Good luck with your speech correction.</string>
+
+    <string name="study_title">Study</string>
+    <string name="study_streak_days">%d DAYS</string>
+    <string name="study_streak_label">STREAK</string>
+    <string name="study_daily_goal">Daily goal: %1$d/%2$d</string>
+    <string name="study_daily_goal_hint">Complete %d exercises to keep your streak going!</string>
+    <string name="study_daily_goal_done">Daily goal complete! Your streak is safe.</string>
+    <string name="study_categories">Exercise categories</string>
+    <string name="study_tongue_twisters">Tongue twisters</string>
+    <string name="study_tongue_twisters_desc">Read the tongue twister on the screen as fast as you can</string>
+    <string name="study_mindful_speech">Mindful speech</string>
+    <string name="study_mindful_speech_desc">Speak on the given topic for three minutes without filler words</string>
+    <string name="study_synonyms">Synonyms</string>
+    <string name="study_synonyms_desc">Come up with as many synonyms for the word as you can</string>
+    <string name="study_coming_soon">This exercise is coming soon</string>
+
+    <string name="auth_sign_in_title">Sign In</string>
+    <string name="auth_email">Email Address</string>
+    <string name="auth_password">Password</string>
+    <string name="auth_sign_in_btn">SIGN IN</string>
+    <string name="auth_forgot">Forgot Your Password?</string>
+    <string name="auth_to_sign_up">Don\'t have an account yet? Sign Up</string>
+    <string name="auth_sign_up_title">Sign Up</string>
+    <string name="auth_create">Create New Account</string>
+    <string name="auth_username">User Name</string>
+    <string name="auth_phone">Phone Number</string>
+    <string name="auth_sign_up_btn">SIGN UP</string>
+    <string name="auth_to_sign_in">Already have an account? Sign In</string>
+    <string name="auth_fill_all">Fill in all the fields!</string>
+    <string name="auth_bad_login">Wrong email or password</string>
+    <string name="auth_enter_email">Enter your email</string>
+    <string name="auth_reset_sent">A password reset email has been sent to you</string>
+    <string name="auth_error">Error: %s</string>
+    <string name="auth_reset_title">Password recovery</string>
+    <string name="auth_reset_msg">Enter the email the account is registered with</string>
+    <string name="auth_send">Send</string>
+    <string name="auth_cancel">Cancel</string>
+    <string name="auth_password_short">The password must be at least 8 characters</string>
+    <string name="auth_signup_ok">Registration successful!</string>
+    <string name="auth_db_error">Could not save your data</string>
+    <string name="auth_signup_error">Registration error: %s</string>
+    <string name="welcome_title">Welcome to WordTrigger.</string>
+    <string name="welcome_start">GET STARTED</string>
+    <string name="articles_title">Articles</string>
+    <string name="connect_title">Connect</string>
+    <string name="connect_start">Start the system</string>
+    <string name="connect_stop">Stop the system</string>
+    <string name="connect_waiting">Waiting…</string>
+    <string name="connect_find_title">Find the device</string>
+    <string name="connect_find_desc">If your device is connected, you can find it by starting a series of vibration signals</string>
+    <string name="connect_my_words">My trigger words</string>
+    <string name="connect_add_hint">Add your own word…</string>
+    <string name="connect_apply">Apply the list</string>
+    <string name="connect_device_on">Device connected</string>
+    <string name="connect_device_search">Searching for the device…</string>
+    <string name="connect_system_off">System is off</string>
+    <string name="connect_list_updated">List updated!</string>
+    <string name="connect_err_symbols">Digits and symbols are not allowed</string>
+    <string name="connect_err_long">The phrase is too long</string>
+    <string name="connect_err_newline">Line breaks are not allowed</string>
+    <string name="parasite_1">Like</string>
+    <string name="parasite_2">"So "</string>
+    <string name="parasite_3">Um</string>
+    <string name="parasite_4">You know</string>
+    <string name="parasite_5">Basically</string>
+    <string name="parasite_6">Literally</string>
+    <string name="parasite_7">Actually</string>
+    <string name="parasite_8">I mean</string>
+    <string name="parasite_9">Kind of</string>
+    <string name="home_report_btn">Get the AI report for the week</string>
+    <string name="home_today_label">Trigger words\nsaid today</string>
+    <string name="home_diff_default">Compared to\nyesterday</string>
+    <string name="home_min_label">Minimum said\nin a day</string>
+    <string name="home_max_label">Maximum said\nin a day</string>
+    <string name="home_chart_label">Filler words</string>
+    <string name="home_diff_less">%d fewer than yesterday</string>
+    <string name="home_diff_more">%d more than yesterday</string>
+    <string name="home_diff_same">The same as yesterday</string>
+    <string name="home_about_title">About the project</string>
+    <string name="home_about_msg">Speech culture control system\nAuthor: Sofia Burda\nContact: ssnbrd3@gmail.com\nProject on GitHub: https://github.com/ssnbrd/WordTrigger\nSupervisor: Aleksandr Andreychuk</string>
+    <string name="home_help_title">How to use the system?</string>
+    <string name="home_help_msg">1. Turn the device on.\n2. Check your internet connection and tap Start the system in the app.\n3. Choose a context in your profile and upload it.\n4. If you say a filler word, the device vibrates.\n5. In the evening turn the system off and get the AI report!</string>
+    <string name="home_share_msg">My WordTrigger progress: today I said %s filler words.</string>
+    <string name="home_share_title">Share</string>
+    <string name="library_title">Word library</string>
+    <string name="profile_title">User</string>
+    <string name="profile_username_placeholder">Username</string>
+    <string name="profile_context_title">What is your speech context today?</string>
+    <string name="ctx_work">Work</string>
+    <string name="ctx_family">Family</string>
+    <string name="ctx_public">Public speaking</string>
+    <string name="ctx_friends">Talking with friends</string>
+    <string name="ctx_conflict">Conflict situation</string>
+    <string name="ctx_stranger">Talking to a stranger</string>
+    <string name="profile_context_save">Upload today\'s context</string>
+    <string name="profile_articles_title">Speech culture improvement techniques</string>
+    <string name="profile_go">Open</string>
+    <string name="profile_logout_title">Log out</string>
+    <string name="profile_logout_msg">Are you sure you want to log out?</string>
+    <string name="profile_logout_yes">Log out</string>
+    <string name="profile_context_saved">Context saved for today!</string>
+    <string name="profile_save_error">Could not save</string>
+    <string name="profile_battery_title">Device battery</string>
+    <string name="profile_battery_unknown">No data from the device yet</string>
+
+    <string name="nav_study">Study</string>
+
+    <string name="notif_title">WordTrigger is active</string>
+    <string name="notif_text">Analysing your speech…</string>
+    <string name="notif_stop">Stop</string>
+    <string name="widget_filler_title">FILLER WORDS TODAY</string>
+    <string name="widget_compare">Compared to yesterday</string>
+    <string name="widget_streak_label">DAY STREAK</string>
+    <string name="widget_lesson_left">Do a lesson: %1$d of %2$d</string>
+    <string-array name="weekdays_short">
+        <item>Mon</item>
+        <item>Tue</item>
+        <item>Wed</item>
+        <item>Thu</item>
+        <item>Fri</item>
+        <item>Sat</item>
+        <item>Sun</item>
+    </string-array>
+    <string-array name="default_trigger_words">
+        <item>like</item>
+        <item>um</item>
+        <item>uh</item>
+        <item>you know</item>
+    </string-array>
+
+    <string name="diff_less">%d less than yesterday</string>
+    <string name="diff_more">%d more than yesterday</string>
+    <string name="ai_prompt_prefix">My weekly speech data: %s</string>
+    <string name="ai_stat_format">Day: %1$s. Contexts: %2$s. Total filler words: %3$s; </string>
+    <string name="about_us_content">Speech Culture Monitoring System\nAuthor: Sofya Burda\nContact: ssnbrd3@gmail.com\nGitHub: https://github.com/ssnbrd/WordTrigger\nAcademic Supervisor: Oleksandr Andreichuk</string>
+    <string name="share_progress_text">My WordTrigger progress: I spoke %s filler words today.</string>
+
+    <string name="nav_home">Home</string>
+    <string name="nav_connect">Connect</string>
+    <string name="nav_profile">Profile</string>
+    <string name="nav_library">Learning</string>
+
+    <string name="menu_share">Share</string>
+    <string name="menu_about">About</string>
+    <string name="menu_help">Help</string>
+
+    <string name="ai_report_system">You are a linguist and psychologist. Analyse the speech data (number of filler words per day over the last week) and the speech contexts the user marked. Answer in English, briefly (up to 200 words), with a logical ending and no continuation: give an analysis of the speech and 3 exercises for a personal plan (diction, speech breathing, getting rid of filler words).</string>
+    <string name="ai_report_user">My data for the week: %s</string>
+    <string name="ai_report_day_line">Day: %1$s. Contexts: %2$s. Filler words total: %3$d; </string>
+    <string name="ai_report_title">AI analytical report</string>
+    <string name="ai_report_ok">Got it</string>
+    <string name="ai_report_loading">Preparing the report…</string>
+    <string name="ai_report_empty">There is no data for the week yet. Turn the system on and try again.</string>
+    <string name="ai_report_local_title">Weekly report</string>
+    <string name="ai_report_local_note">The AI service is unavailable right now, so this report was compiled by the app from your data.</string>
+    <string name="local_total">Filler words recorded over the period: %1$d (%2$.1f per day on average).</string>
+    <string name="local_best">Best day: %1$s, %2$d.</string>
+    <string name="local_worst">Most: %1$s, %2$d.</string>
+    <string name="local_trend_down">Good trend: fewer filler words in the second half of the period (%1$d vs %2$d).</string>
+    <string name="local_trend_up">More filler words in the second half of the period (%1$d vs %2$d).</string>
+    <string name="local_trend_flat">The trend is flat.</string>
+    <string name="local_context">Filler words are most frequent in the context “%1$s”: %2$.1f per day on average.</string>
+    <string name="local_advice">What to do next:\n• tongue twisters for diction;\n• “Mindful speech” for three minutes without fillers;\n• before a talk: breathe in for 4 counts and out for 6.</string>
+    <string name="ai_topic_system">You are a strict but fair speech coach. The user had to speak for a few minutes on a given topic. The text below is an automatic transcript: no punctuation, and it may contain recognition errors, so ignore those. Judge only two things: is the speech on the topic, and is it coherent (not random words and not endless repetition). Reply with JSON only, no other text: {\"on_topic\": true or false, \"score\": a number from 0 to 100, \"comment\": \"one short sentence of advice in English\"}.</string>
+    <string name="ai_topic_user">Topic: %1$s\nTranscript: %2$s</string>
+    <string name="ai_syn_system">You check synonyms. You get a word and a list of candidate words from an automatic speech transcript. Return only a JSON array with the candidates that are real synonyms or near-synonyms of the word (same part of speech). If a candidate is clearly a recognition error of a valid synonym, include it exactly as written. Do not add words that are not in the candidate list. Example: [\"word1\",\"word2\"]. If there are none, return [].</string>
+    <string name="ai_syn_user">Word: %1$s\nCandidates: %2$s</string>
+    <string name="ai_err_not_configured">The AI key is not set. Add LLM_API_KEY (OpenRouter) to local.properties and rebuild the app.</string>
+    <string name="ai_err_auth">The AI service rejected the key. Check LLM_API_KEY in local.properties.</string>
+    <string name="ai_err_limit">The free AI limit is used up (about 50 requests per day). Try again tomorrow.</string>
+    <string name="ai_err_network">No connection to the AI service. Check the internet.</string>
+    <string name="ai_err_bad_response">The AI model returned an empty or unreadable answer.</string>
+    <string name="ai_err_server">The AI service returned an error. On OpenRouter check Settings → Privacy: free models need “Enable free endpoints that may publish prompts” turned on.</string>
+    <string name="ai_check_title">AI connection</string>
+    <string name="ai_check_button">Check</string>
+    <string name="ai_check_running">Checking…</string>
+    <string name="ai_check_ok">The AI works.</string>
+    <string name="ai_report_reason">Reason: %s</string>
+    <string name="ai_exercise_fallback_toast">AI check unavailable, a simple check was used. Details are in Settings.</string>
+
+    <string name="ai_gen_system">You create exercises for a speech-training app. Reply with a JSON array of strings only, no other text.</string>
+    <string name="ai_gen_twisters">Write %1$d new English tongue twisters. Use only common everyday words (no rare, archaic or invented words): speech recognition must be able to understand them. 4 to 12 words each, a clear sound pattern. Theme hint: %3$s. Do not repeat or resemble: %2$s.</string>
+    <string name="ai_gen_synonyms">Give %1$d common English words (adjectives, verbs or nouns) for a synonym exercise. For each word list 8 to 12 real single-word synonyms. Format of every array item: word|synonym1, synonym2, synonym3. Theme hint: %3$s. Do not use these words: %2$s.</string>
+    <string name="ai_gen_topics">Give %1$d topics for a three-minute talk, each with a clear everyday angle. Format of every array item: topic|stem1, stem2, stem3 where the stems are 8 to 12 lowercase word stems typical for a speech on this topic. Theme hint: %3$s. Do not use these topics: %2$s.</string>
+    <string-array name="gen_themes">
+        <item>animals</item>
+        <item>food</item>
+        <item>travel</item>
+        <item>weather</item>
+        <item>sports</item>
+        <item>technology</item>
+        <item>nature</item>
+        <item>city life</item>
+        <item>school</item>
+        <item>music</item>
+        <item>family</item>
+        <item>work</item>
+        <item>health</item>
+        <item>holidays</item>
+    </string-array>
+
+    <string name="widget_label">filler words said today</string>
+    <string name="widget_description">Number of filler words you have said today</string>
+    <string name="profile_word_library">Word library</string>
+
+    <string name="exercise_result_title">Result:</string>
+    <string name="exercise_another">Another one</string>
+    <string name="exercise_another_topic">Another topic</string>
+    <string name="exercise_another_word">Another word</string>
+    <string name="exercise_start_recording">START RECORDING</string>
+    <string name="exercise_stop_recording">STOP RECORDING</string>
+    <string name="exercise_loading_model">Loading the speech model…</string>
+    <string name="exercise_listening">Listening…</string>
+    <string name="exercise_mic_denied">The exercise needs access to the microphone</string>
+    <string name="exercise_error">Recognition error: %s</string>
+    <string name="exercise_nothing_heard">Nothing was recognised. Speak closer to the microphone and try again.</string>
+    <string name="exercise_done">✓ Exercise counted for today</string>
+
+    <string name="exercise_play_reference">PLAY REFERENCE</string>
+    <string name="exercise_stop_reference">STOP</string>
+    <string name="exercise_record">SAY IT</string>
+    <string name="exercise_stop_record">FINISH</string>
+    <string name="exercise_tempo">TEMPO: %s</string>
+    <string name="tempo_slow">SLOW</string>
+    <string name="tempo_medium">MEDIUM</string>
+    <string name="tempo_fast">FAST</string>
+    <string name="exercise_tts_unavailable">The reference voice for this language is not installed on your device</string>
+    <string name="twister_result">Accuracy: %1$d%% (needed: %4$d%%)\nPace: %2$.1f words/s (needed: %3$.1f)</string>
+    <string name="twister_heard">Heard: “%s”</string>
+    <string name="twister_failed_accuracy">Some words were pronounced unclearly. Say it again, a slower tempo is fine.</string>
+    <string name="twister_failed_pace">Clear, but too slow for this tempo. Try again!</string>
+    <string name="twister_hint">Say the phrase clearly right after pressing the button. The recording stops by itself when you finish.</string>
+
+    <string name="mindful_topic">TOPIC OF THE DAY:\n\"%s\"</string>
+    <string name="mindful_my_fillers">My filler words: *%s*</string>
+    <string name="mindful_hint">Press the button and speak on the topic for three minutes without filler words.</string>
+    <string name="mindful_result">Speaking time: %1$s\nWords: %2$d\nFiller words: %3$d</string>
+    <string name="mindful_fillers_breakdown">Filler words: %s</string>
+    <string name="mindful_too_short">Speak for at least %d seconds for the exercise to count.</string>
+    <string name="mindful_too_many">Too many filler words (no more than %d allowed). Try again!</string>
+    <string name="mindful_checking">Checking the topic…</string>
+    <string name="mindful_topic_ai">Topic: %1$d/100 (AI)</string>
+    <string name="mindful_topic_local_ok">Topic: found words on the topic (%d).</string>
+    <string name="mindful_topic_local_fail">It does not sound like you stayed on the topic. Develop it in more detail and give examples.</string>
+    <string name="mindful_topic_off_topic">The speech went off topic. Stay on “%s”.</string>
+    <string name="mindful_variety_low">Too many repetitions. Speak more varied.</string>
+    <string name="mindful_too_few_words">The story is too short: at least %d words are needed.</string>
+    <string name="mindful_simple_check_note">The topic was checked in a simple way (without AI).</string>
+
+    <string name="synonyms_word_label">WORD:</string>
+    <string name="synonyms_hint">Name as many synonyms as you can in 30 seconds</string>
+    <string name="synonyms_result">Synonyms accepted: %1$d\n%2$s</string>
+    <string name="synonyms_checking">Checking the words…</string>
+    <string name="synonyms_ai_note">* accepted by AI, not in the built-in list</string>
+    <string name="synonyms_unchecked">Words outside the list were not checked: AI is unavailable. Try again later or turn on AI checking in settings.</string>
+    <string name="synonyms_more">You could also say: %s</string>
+    <string name="synonyms_not_enough">At least %d synonyms are needed. Answers stay hidden, and the word has been replaced with a new one. Try again!</string>
+
+    <string-array name="exercise_tongue_twisters">
+        <item>She sells seashells by the seashore</item>
+        <item>Peter Piper picked a peck of pickled peppers</item>
+        <item>How much wood would a woodchuck chuck if a woodchuck could chuck wood</item>
+        <item>Red lorry, yellow lorry</item>
+        <item>Fuzzy Wuzzy was a bear, Fuzzy Wuzzy had no hair</item>
+    </string-array>
+
+    <string-array name="exercise_topics">
+        <item>How I spent the weekend|weekend, saturday, sunday, rest, friend, walk, home, visit, weather, movie, meet</item>
+        <item>My perfect working day|work, morning, office, task, project, colleague, schedule, break, lunch, coffee, meeting, product</item>
+        <item>A book or a film that surprised me|book, film, movie, plot, charact, author, director, ending, read, watch, actor, surpris</item>
+        <item>A place I would like to visit|countr, city, travel, trip, sea, mountain, sight, cultur, ticket, vacation, nature, flight</item>
+        <item>What friendship means to me|friend, trust, support, help, together, honest, loyal, quarrel, understand, close, communic</item>
+        <item>My favourite way to relax|relax, favourite, walk, sport, music, sleep, nature, hobby, book, calm, movie, friend</item>
+    </string-array>
+
+    <string-array name="exercise_synonyms">
+        <item>beautiful|gorgeous, lovely, stunning, attractive, pretty, charming, elegant, splendid, striking, handsome</item>
+        <item>big|huge, large, enormous, giant, massive, vast, immense, colossal, great, gigantic</item>
+        <item>fast|quick, rapid, swift, speedy, brisk, hasty, fleet, prompt, express</item>
+        <item>say|speak, state, tell, utter, declare, mention, announce, remark, claim, express</item>
+        <item>happy|glad, joyful, cheerful, delighted, content, pleased, merry, thrilled, upbeat, elated</item>
+        <item>smart|clever, intelligent, bright, wise, sharp, brilliant, gifted, quick, astute, sensible</item>
+        <item>sad|unhappy, gloomy, sorrowful, miserable, downcast, blue, depressed, mournful, melancholy</item>
+        <item>brave|courageous, bold, fearless, daring, heroic, valiant, gallant, plucky, intrepid</item>
+    </string-array>
+
+    <string-array name="default_filler_words">
+        <item>like</item>
+        <item>basically</item>
+        <item>actually</item>
+        <item>you know</item>
+        <item>literally</item>
+    </string-array>
+
+    <string-array name="synonym_stop_words">
+        <item>and</item>
+        <item>the</item>
+        <item>also</item>
+        <item>well</item>
+        <item>word</item>
+        <item>synonym</item>
+        <item>one</item>
+        <item>this</item>
+        <item>that</item>
+        <item>like</item>
+        <item>maybe</item>
+        <item>yeah</item>
+        <item>and then</item>
+    </string-array>
+
+    <string name="settings_title">User Settings</string>
+    <string name="settings_edit_photo">Edit photo</string>
+    <string name="settings_choose_photo">Choose a new photo</string>
+    <string name="settings_remove_photo">Remove photo</string>
+    <string name="settings_photo_updated">Photo updated</string>
+    <string name="settings_photo_failed">Could not use this photo</string>
+    <string name="settings_edit_name">Change name</string>
+    <string name="settings_edit_email">Change email</string>
+    <string name="settings_edit_phone">Change phone</string>
+    <string name="settings_name_hint">Name</string>
+    <string name="settings_email_hint">New email</string>
+    <string name="settings_phone_hint">Phone</string>
+    <string name="settings_save">Save</string>
+    <string name="settings_cancel">Cancel</string>
+    <string name="settings_saved">Saved</string>
+    <string name="settings_save_failed">Could not save. Check your connection.</string>
+    <string name="settings_err_empty">The field cannot be empty</string>
+    <string name="settings_err_email">Enter a valid email</string>
+    <string name="settings_err_phone">Enter a valid phone number</string>
+    <string name="settings_email_sent">We sent a confirmation link to %s. The email changes after you follow it.</string>
+    <string name="settings_reauth_title">Confirm your password</string>
+    <string name="settings_reauth_hint">Current password</string>
+    <string name="settings_reauth_wrong">Wrong password</string>
+    <string name="settings_choose_language">Choose the system language:</string>
+    <string name="lang_ru">Русский</string>
+    <string name="lang_en">English</string>
+    <string name="settings_ai_topic">AI exercise check</string>
+    <string name="settings_ai_topic_desc">The app sends the text of your answers (speech topic, synonyms) to the AI service to check them. Without it the check is simpler.</string>
+
+    <string name="widget_streak_description">Your streak and a reminder to do today\'s lesson</string>
+    <string name="widget_streak_remind">Do a lesson to keep your streak</string>
+    <string name="widget_streak_start">Start a streak: do a lesson</string>
+    <string name="widget_streak_progress">Today: %1$d of %2$d</string>
+    <string name="widget_streak_done">Streak extended!</string>
+    <string name="widget_streak_done_sub">Today\'s goal is done</string>
+    <plurals name="widget_days">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
+    <plurals name="widget_record_days">
+        <item quantity="one">RECORD: %d DAY</item>
+        <item quantity="other">RECORD: %d DAYS</item>
+    </plurals>
+
 </resources>
