@@ -67,7 +67,6 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        // нажатие на аватарку или имя открывает настройки
         View.OnClickListener openSettings = view ->
                 getParentFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, new SettingsFragment())

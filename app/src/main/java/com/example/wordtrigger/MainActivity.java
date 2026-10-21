@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
 
-        // виджет серии открывает вкладку «Учёба»
         if (savedInstanceState == null && getIntent().getBooleanExtra(StreakWidgetProvider.EXTRA_OPEN_STUDY, false)) {
             bottomNav.setSelectedItemId(R.id.nav_library);
         }

@@ -79,7 +79,6 @@ public class MonitoringService extends Service {
         statusHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                // язык приложения сменили: пересобираем распознаватель на модели нового языка
                 if (speechHelper != null && speechHelper.isModelStale(MonitoringService.this)) {
                     List<String> words = currentTargetWords;
                     speechHelper.release();

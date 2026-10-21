@@ -66,7 +66,6 @@ public void processAudio(byte[] buffer, int len) {
         parseAndCheck(recognizer.getPartialResult(), false);
     }
 }
-    /** true, если язык приложения сменили и распознаватель собран на модели другого языка. */
     public boolean isModelStale(Context context) {
         return !modelDir.equals(VoskModelHolder.modelDirFor(context));
     }
@@ -91,7 +90,6 @@ public void processAudio(byte[] buffer, int len) {
                 Log.d("VOSK_HEARD", "HEARD: " + text);
                 listener.onPartialResult(text);
 
-                // слово должно совпасть целиком: «like» не срабатывает на «unlike», «ну» на «рисунок»
                 String padded = " " + text.toLowerCase().replaceAll("\\s+", " ") + " ";
                 for (String target : targetWords) {
                     String t = target == null ? "" : target.trim().toLowerCase();

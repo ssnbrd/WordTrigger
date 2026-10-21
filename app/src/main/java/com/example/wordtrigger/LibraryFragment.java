@@ -53,7 +53,6 @@ public class LibraryFragment extends Fragment {
         loadWords(AppSettings.contentCollection(requireContext(), "words_library"), true);
     }
 
-    /** Для английского читаем words_library_en; если коллекции ещё нет, показываем основную. */
     private void loadWords(String collection, boolean allowFallback) {
         db.collection(collection).get().addOnCompleteListener(task -> {
             if (!isAdded()) return;

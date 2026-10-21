@@ -29,7 +29,7 @@ public class WelcomeActivity extends AppCompatActivity {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             Intent main = new Intent(this, MainActivity.class);
-            main.putExtras(getIntent());   // например, open_study из виджета серии
+            main.putExtras(getIntent());
             startActivity(main);
             finish();
         }
