@@ -49,7 +49,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements TabAware {
+    // последние загруженные данные: по ним экран пересчитывается, когда приходит новое слово-паразит
+    private int[] weekData = new int[7];
+    private int yesterdayCount, maxOther, minOther = Integer.MAX_VALUE;
+    private boolean statsLoaded;
+    private android.content.SharedPreferences.OnSharedPreferenceChangeListener counterListener;
+
     private LineChart lineChart;
     private FirebaseFirestore db;
     private TextView countToday;
@@ -197,7 +203,7 @@ public class HomeFragment extends Fragment {
                 .get()
                 .addOnSuccessListener(snapshots -> {
                     if (snapshots.isEmpty()) {
-                        updateUI(new int[7], 0, 0, 0, 0);
+                        updateUI(new int[7], 0, 0, 0, Integer.MAX_VALUE);
                         return;
                     }
 
@@ -211,8 +217,11 @@ public class HomeFragment extends Fragment {
                         long count = doc.getLong("total_count") != null ? doc.getLong("total_count") : 0;
                         String dateId = doc.getId();
 
-                        if (count > globalMax) globalMax = (int) count;
-                        if (count > 0 && count < globalMin) globalMin = (int) count;
+                        // максимум и минимум считаем по остальным дням: сегодняшнее значение добавится при отрисовке
+                        if (!dateId.equals(todayStr)) {
+                            if (count > globalMax) globalMax = (int) count;
+                            if (count > 0 && count < globalMin) globalMin = (int) count;
+                        }
 
                         if (dateId.equals(todayStr)) totalToday = (int) count;
                         if (dateId.equals(yesterdayStr)) totalYesterday = (int) count;
@@ -229,18 +238,57 @@ public class HomeFragment extends Fragment {
                         } catch (Exception e) { e.printStackTrace(); }
                     }
 
-                    if (globalMin == Integer.MAX_VALUE) globalMin = 0;
-
                     updateUI(weekData, totalToday, totalYesterday, globalMax, globalMin);
                 });
     }
 
     private void updateUI(int[] dailyCounts, int today, int yesterday, int max, int min) {
-        countToday.setText(String.valueOf(today));
         if (getContext() != null) {
+            today = Math.max(today, FillerCounter.getToday(getContext()));   // локальный счётчик мог уйти вперёд облака
             FillerCounter.set(getContext(), today);
             FillerCounter.setYesterday(getContext(), yesterday);
         }
+        weekData = dailyCounts;
+        yesterdayCount = yesterday;
+        maxOther = max;
+        minOther = min;
+        statsLoaded = true;
+        render(today);
+    }
+
+    /** Мгновенное обновление: сегодняшнее число берём из локального счётчика, который ведёт служба. */
+    private void refreshFromLocal() {
+        if (!isAdded() || getContext() == null || !statsLoaded) return;
+        render(FillerCounter.getToday(requireContext()));
+    }
+
+    @Override
+    public void onTabShown() {
+        loadStatistics();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        counterListener = FillerCounter.addListener(requireContext(), this::refreshFromLocal);
+        refreshFromLocal();
+    }
+
+    @Override
+    public void onStop() {
+        FillerCounter.removeListener(requireContext(), counterListener);
+        counterListener = null;
+        super.onStop();
+    }
+
+    private void render(int today) {
+        int[] dailyCounts = weekData.clone();
+        int dow = java.util.Calendar.getInstance().get(java.util.Calendar.DAY_OF_WEEK);
+        dailyCounts[dow == java.util.Calendar.SUNDAY ? 6 : dow - 2] = today;     // Пн=0 ... Вс=6
+        int yesterday = yesterdayCount;
+        int max = Math.max(maxOther, today);
+        int min = today > 0 ? Math.min(minOther, today) : minOther;
+        countToday.setText(String.valueOf(today));
         tvMaxDaily.setText(String.valueOf(max));
         tvMinDaily.setText(String.valueOf(min == Integer.MAX_VALUE ? 0 : min));
 

@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -14,35 +16,69 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
+    // Android 13+: без этого разрешения уведомление «система активна» скрыто («Suppressing notification»)
+    private final ActivityResultLauncher<String> notificationPermission =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> { });
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         EdgeInsets.apply(this);
 
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        if (android.os.Build.VERSION.SDK_INT >= 33 && androidx.core.content.ContextCompat.checkSelfPermission(
+                this, android.Manifest.permission.POST_NOTIFICATIONS)
+                != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+            notificationPermission.launch(android.Manifest.permission.POST_NOTIFICATIONS);
+        }
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
+        bottomNav = findViewById(R.id.bottom_navigation);
+        if (savedInstanceState == null) showTab(R.id.nav_home);
 
         bottomNav.setOnItemSelectedListener(item -> {
-            Fragment selectedFragment = null;
-            int id = item.getItemId();
-
-            if (id == R.id.nav_home) selectedFragment = new HomeFragment();
-            else if (id == R.id.nav_connect) selectedFragment = new ConnectFragment();
-            else if (id == R.id.nav_profile) selectedFragment = new ProfileFragment();
-            else if (id == R.id.nav_library) selectedFragment = new StudyFragment();
-
-            if (selectedFragment != null) {
-                getSupportFragmentManager().popBackStack(null, androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, selectedFragment).commit();
-            }
+            showTab(item.getItemId());
             return true;
+        });
+        // повторное нажатие на текущую вкладку возвращает её к главному экрану
+        bottomNav.setOnItemReselectedListener(item -> {
+            Fragment host = getSupportFragmentManager().findFragmentByTag(tag(item.getItemId()));
+            if (host != null) host.getChildFragmentManager().popBackStack(null,
+                    androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE);
         });
 
         if (savedInstanceState == null && getIntent().getBooleanExtra(StreakWidgetProvider.EXTRA_OPEN_STUDY, false)) {
             bottomNav.setSelectedItemId(R.id.nav_library);
         }
+    }
+
+    private BottomNavigationView bottomNav;
+    private static final int[] TABS = {R.id.nav_home, R.id.nav_connect, R.id.nav_library, R.id.nav_profile};
+
+    private static String tag(int menuId) {
+        return "tab_" + menuId;
+    }
+
+    /** Переключение вкладки без пересоздания: остальные вкладки скрываются, но живут. */
+    private void showTab(int menuId) {
+        androidx.fragment.app.FragmentManager fm = getSupportFragmentManager();
+        androidx.fragment.app.FragmentTransaction tx = fm.beginTransaction().setReorderingAllowed(true);
+        Fragment target = fm.findFragmentByTag(tag(menuId));
+        for (int t : TABS) {
+            Fragment f = fm.findFragmentByTag(tag(t));
+            if (f != null && f != target) tx.hide(f);
+        }
+        if (target == null) {
+            target = TabHostFragment.newInstance(menuId);
+            tx.add(R.id.fragment_container, target, tag(menuId));
+        } else {
+            tx.show(target);
+        }
+        // системная кнопка «назад» сначала закрывает вложенные экраны активной вкладки
+        tx.setPrimaryNavigationFragment(target).commit();
+    }
+
+    /** Для экранов, у которых стрелка «назад» ведёт на главную вкладку. */
+    public void selectTab(int menuId) {
+        bottomNav.setSelectedItemId(menuId);
     }
 }

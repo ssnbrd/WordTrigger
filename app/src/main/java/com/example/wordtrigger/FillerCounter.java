@@ -28,6 +28,20 @@ public final class FillerCounter {
         return -1;
     }
 
+    /**
+     * Подписка на изменения счётчика: главный экран обновляется сразу, как только служба услышала слово-паразит.
+     * Ссылку на слушатель нужно хранить у себя, иначе система его удалит.
+     */
+    public static SharedPreferences.OnSharedPreferenceChangeListener addListener(Context c, Runnable onChange) {
+        SharedPreferences.OnSharedPreferenceChangeListener l = (sp, key) -> onChange.run();
+        prefs(c).registerOnSharedPreferenceChangeListener(l);
+        return l;
+    }
+
+    public static void removeListener(Context c, SharedPreferences.OnSharedPreferenceChangeListener l) {
+        if (l != null) prefs(c).unregisterOnSharedPreferenceChangeListener(l);
+    }
+
     public static Integer changePercent(int today, int yesterday) {
         return WidgetMath.changePercent(today, yesterday);
     }
@@ -39,6 +53,8 @@ public final class FillerCounter {
     public static synchronized void set(Context c, int count) {
         SharedPreferences p = prefs(c);
         int yesterday = getYesterday(c);
+        if (StudyProgress.dateString(0).equals(p.getString(KEY_DATE, "")) && p.getInt(KEY_COUNT, -1) == count
+                && p.getInt(KEY_YESTERDAY, -2) == yesterday) return;      // ничего не изменилось
         p.edit().putString(KEY_DATE, StudyProgress.dateString(0)).putInt(KEY_COUNT, count)
                 .putInt(KEY_YESTERDAY, yesterday).apply();
         FillerWidgetProvider.updateAll(c);

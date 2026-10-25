@@ -88,7 +88,7 @@ public class TongueTwisterFragment extends ExerciseBaseFragment {
     }
 
     private void pickTwister() {
-        twister = ExercisePool.next(requireContext(), ExercisePool.TWISTERS, R.array.exercise_tongue_twisters, twister);
+        twister = ExercisePool.next(requireContext(), ExercisePool.TWISTERS, R.array.exercise_tongue_twisters, twister, false);
         tvTwister.setText(twister);
     }
 

@@ -85,6 +85,9 @@ public class MindfulSpeechFragment extends ExerciseBaseFragment {
                 if (!k.trim().isEmpty()) topicKeywords.add(k.trim());
             }
         }
+        for (String stem : TopicScorer.stemsFromTitle(topicTitle)) {
+            if (!topicKeywords.contains(stem)) topicKeywords.add(stem);
+        }
         tvTopic.setText(getString(R.string.mindful_topic, topicTitle));
     }
 

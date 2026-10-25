@@ -101,23 +101,6 @@ public class SettingsFragment extends Fragment {
         aiSwitch.setChecked(AppSettings.isAiCheckEnabled(requireContext()));
         aiSwitch.setOnCheckedChangeListener((b, checked) ->
                 AppSettings.setAiCheckEnabled(requireContext(), checked));
-
-        TextView tvAiStatus = v.findViewById(R.id.tvAiStatus);
-        tvAiStatus.setText(LlmClient.configSummary());
-        v.findViewById(R.id.btnAiCheck).setOnClickListener(x -> {
-            tvAiStatus.setText(R.string.ai_check_running);
-            LlmClient.ping(requireContext(), new LlmClient.Callback() {
-                @Override public void onResult(String text) {
-                    if (!isAdded()) return;
-                    tvAiStatus.setText(getString(R.string.ai_check_ok) + "\n" + LlmClient.configSummary());
-                }
-                @Override public void onError(LlmClient.Kind kind, String detail) {
-                    if (!isAdded()) return;
-                    tvAiStatus.setText(LlmClient.explain(requireContext(), kind, detail)
-                            + "\n\n" + LlmClient.configSummary());
-                }
-            });
-        });
     }
 
     private static String text(TextView tv) {

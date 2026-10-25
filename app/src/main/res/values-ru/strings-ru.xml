@@ -378,5 +378,7 @@
         <item quantity="many">РЕКОРД: %d ДНЕЙ</item>
         <item quantity="other">РЕКОРД: %d ДНЯ</item>
     </plurals>
+    <string name="notif_disabled_hint">Уведомления WordTrigger выключены. Включите их, чтобы видеть уведомление «система активна».</string>
+    <string name="ai_err_timeout">ИИ-сервис отвечает слишком медленно. Использована простая проверка.</string>
 
 </resources>

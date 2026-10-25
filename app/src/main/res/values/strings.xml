@@ -355,5 +355,7 @@
         <item quantity="one">RECORD: %d DAY</item>
         <item quantity="other">RECORD: %d DAYS</item>
     </plurals>
+    <string name="notif_disabled_hint">Notifications are turned off for WordTrigger. Turn them on to see the “system is active” notification.</string>
+    <string name="ai_err_timeout">The AI service is answering too slowly. A simple check was used instead.</string>
 
 </resources>

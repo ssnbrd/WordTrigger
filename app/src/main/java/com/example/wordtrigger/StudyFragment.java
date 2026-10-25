@@ -23,7 +23,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class StudyFragment extends Fragment {
+public class StudyFragment extends Fragment implements TabAware {
+    @Override
+    public void onTabShown() {
+        loadProgress();
+    }
+
 
     private static final int DAILY_GOAL = StudyProgress.DAILY_GOAL;
 
@@ -53,9 +58,7 @@ public class StudyFragment extends Fragment {
         pbDailyGoal.setMax(DAILY_GOAL);
 
         view.findViewById(R.id.returnBut).setOnClickListener(v ->
-                getParentFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, new HomeFragment())
-                        .commit());
+                ((MainActivity) requireActivity()).selectTab(R.id.nav_home));
 
         categories.clear();
         categories.add(new ExerciseCategory(ExerciseCategory.ID_TONGUE_TWISTERS,

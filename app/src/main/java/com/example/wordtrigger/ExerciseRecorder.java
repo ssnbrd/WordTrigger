@@ -8,12 +8,18 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.vosk.Model;
 import org.vosk.Recognizer;
-import org.vosk.android.RecognitionListener;
-import org.vosk.android.SpeechService;
+import android.media.AudioFormat;
+import android.media.AudioRecord;
+import android.media.MediaRecorder;
 
 import java.util.List;
 
-public class ExerciseRecorder implements RecognitionListener {
+/**
+ * Запись с микрофона телефона и распознавание речи (Vosk) на время одного упражнения.
+ * Собирает итоговый текст и длительность самой речи (от первого до последнего слова),
+ * по ней считается реальный темп без учёта пауз до и после.
+ */
+public class ExerciseRecorder {
 
     public interface Listener {
         void onModelLoading();
@@ -27,7 +33,8 @@ public class ExerciseRecorder implements RecognitionListener {
 
     private final Listener listener;
     private final Handler main = new Handler(Looper.getMainLooper());
-    private SpeechService service;
+    private volatile boolean running;
+    private Thread thread;
 
     private final StringBuilder finalized = new StringBuilder();
     private String partial = "";
@@ -46,6 +53,13 @@ public class ExerciseRecorder implements RecognitionListener {
         start(context, null, 0);
     }
 
+    /**
+     * @param grammarWords если задан, распознаватель ограничивается этими словами (плюс [unk] для всего
+     *                     остального). Для коротких известных фраз, например скороговорок, это сильно
+     *                     повышает точность на быстрой речи. Работает только с «малыми» моделями Vosk
+     *                     (в assets/model есть graph/HCLr.fst); если не поддерживается, запись идёт без ограничения.
+     * @param autoFinishWords после скольких распознанных слов запись завершается сама (0, если не нужно)
+     */
     public void start(Context context, List<String> grammarWords, int autoFinishWords) {
         this.autoFinishWords = autoFinishWords;
         listener.onModelLoading();
@@ -56,9 +70,7 @@ public class ExerciseRecorder implements RecognitionListener {
                 try {
                     Recognizer recognizer = createRecognizer(model, grammarWords);
                     recognizer.setWords(true);
-                    service = new SpeechService(recognizer, SAMPLE_RATE);
-                    service.startListening(ExerciseRecorder.this);
-                    listener.onStarted();
+                    startRecording(recognizer);
                 } catch (Exception e) {
                     listener.onError(e.getMessage());
                 }
@@ -79,32 +91,98 @@ public class ExerciseRecorder implements RecognitionListener {
                 grammar.put("[unk]");
                 return new Recognizer(model, SAMPLE_RATE, grammar.toString());
             } catch (Throwable ignored) {
-                // модель не поддерживает грамматику распознаём без ограничения
+                // модель не поддерживает грамматику: распознаём без ограничения
             }
         }
         return new Recognizer(model, SAMPLE_RATE);
     }
 
+    /**
+     * Собственный цикл записи вместо SpeechService из vosk-android: тот при любой ошибке чтения микрофона
+     * (запись остановили, микрофон занят другим приложением) бросает исключение в своём потоке и роняет приложение.
+     */
+    private void startRecording(Recognizer recognizer) {
+        final int minBuf = AudioRecord.getMinBufferSize((int) SAMPLE_RATE,
+                AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT);
+        final int bufSize = Math.max(minBuf, (int) SAMPLE_RATE);       // не меньше полсекунды звука
+        final AudioRecord record;
+        try {
+            record = new AudioRecord(MediaRecorder.AudioSource.VOICE_RECOGNITION, (int) SAMPLE_RATE,
+                    AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, bufSize);
+        } catch (SecurityException e) {
+            recognizer.close();
+            listener.onError(e.getMessage());
+            return;
+        }
+        if (record.getState() != AudioRecord.STATE_INITIALIZED) {
+            record.release();
+            recognizer.close();
+            listener.onError("microphone is not available");
+            return;
+        }
+        running = true;
+        thread = new Thread(() -> {
+            byte[] buffer = new byte[bufSize / 4];
+            String error = null;
+            try {
+                record.startRecording();
+                while (running) {
+                    int n = record.read(buffer, 0, buffer.length);
+                    if (n < 0) {                       // микрофон отобрали или запись сломалась
+                        if (running) error = "error reading audio buffer";
+                        break;
+                    }
+                    if (n == 0) continue;
+                    if (recognizer.acceptWaveForm(buffer, n)) {
+                        final String result = recognizer.getResult();
+                        main.post(() -> { if (!cancelled) onResult(result); });
+                    } else {
+                        final String part = recognizer.getPartialResult();
+                        main.post(() -> { if (!cancelled) onPartialResult(part); });
+                    }
+                }
+            } catch (Exception e) {
+                error = String.valueOf(e.getMessage());
+            } finally {
+                try { record.stop(); } catch (Exception ignored) { }
+                record.release();
+            }
+            String last = "";
+            try { last = recognizer.getFinalResult(); } catch (Exception ignored) { }
+            try { recognizer.close(); } catch (Exception ignored) { }
+            final String lastResult = last;
+            final String err = error;
+            main.post(() -> {
+                if (cancelled) return;
+                absorb(lastResult);
+                if (err != null && currentText().isEmpty()) listener.onError(err);
+                else finish();
+            });
+        }, "exercise-recorder");
+        thread.start();
+        listener.onStarted();
+    }
+
+    /** Остановить запись; итог придёт в onFinished. */
     public void stop() {
-        if (service == null) {
+        if (thread == null) {
             finish();
             return;
         }
-        service.stop();
-        main.postDelayed(this::finish, 2000);
+        running = false;      // поток сам закончит чтение, снимет итог и вызовет finish()
+        // если финальный результат по какой-то причине не пришёл, не зависаем
+        main.postDelayed(this::finish, 3000);
     }
 
+    /** Прервать без результата (выход с экрана). */
     public void cancel() {
         cancelled = true;
         main.removeCallbacksAndMessages(null);
-        releaseService();
+        running = false;      // поток сам освободит микрофон и распознаватель
     }
 
     private void releaseService() {
-        if (service != null) {
-            service.shutdown();
-            service = null;
-        }
+        running = false;
     }
 
     private void finish() {
@@ -123,7 +201,7 @@ public class ExerciseRecorder implements RecognitionListener {
     private void absorb(String json) {
         try {
             JSONObject obj = new JSONObject(json);
-
+            // [unk] появляется, когда включена грамматика и звук не похож ни на одно слово из списка
             String text = obj.optString("text", "").replace("[unk]", " ").replaceAll("\\s+", " ").trim();
             if (!text.isEmpty()) {
                 if (finalized.length() > 0) finalized.append(' ');
@@ -148,8 +226,7 @@ public class ExerciseRecorder implements RecognitionListener {
         } catch (Exception ignored) { }
     }
 
-    @Override
-    public void onPartialResult(String hypothesis) {
+    private void onPartialResult(String hypothesis) {
         try {
             partial = new JSONObject(hypothesis).optString("partial", "")
                     .replace("[unk]", " ").replaceAll("\\s+", " ").trim();
@@ -157,25 +234,8 @@ public class ExerciseRecorder implements RecognitionListener {
         if (!cancelled) listener.onPartial(currentText());
     }
 
-    @Override
-    public void onResult(String hypothesis) {
+    private void onResult(String hypothesis) {
         absorb(hypothesis);
         if (!cancelled) listener.onPartial(currentText());
-    }
-
-    @Override
-    public void onFinalResult(String hypothesis) {
-        absorb(hypothesis);
-        finish();
-    }
-
-    @Override
-    public void onError(Exception exception) {
-        if (!cancelled) listener.onError(exception.getMessage());
-    }
-
-    @Override
-    public void onTimeout() {
-        finish();
     }
 }

@@ -56,9 +56,15 @@ public final class ExercisePool {
     }
 
     public static synchronized String next(Context c, String type, @ArrayRes int fallbackArray, String exclude) {
+        return next(c, type, fallbackArray, exclude, true);
+    }
+
+    /** useAi = false: только готовый список (скороговорки: ИИ превращал их в набор слов), но без повторов. */
+    public static synchronized String next(Context c, String type, @ArrayRes int fallbackArray,
+                                           String exclude, boolean useAi) {
         String poolKey = key(c, type, "pool");
         String recentKey = key(c, type, "recent");
-        List<String> pool = read(c, poolKey);
+        List<String> pool = useAi ? read(c, poolKey) : new ArrayList<>();
         List<String> recent = read(c, recentKey);
         String ex = exclude == null ? "" : exclude.trim().toLowerCase();
 
@@ -67,7 +73,7 @@ public final class ExercisePool {
             String cand = pool.remove(0);
             if (!title(cand).equals(ex) && !recent.contains(title(cand))) item = cand;
         }
-        write(c, poolKey, pool);
+        if (useAi) write(c, poolKey, pool);
 
         if (item == null) {
             List<String> all = ExerciseContent.list(c, fallbackArray);
@@ -85,7 +91,7 @@ public final class ExercisePool {
         while (recent.size() > RECENT) recent.remove(0);
         write(c, recentKey, recent);
 
-        if (pool.size() <= LOW_WATER) refill(c, type);
+        if (useAi && pool.size() <= LOW_WATER) refill(c, type);
         return item;
     }
 

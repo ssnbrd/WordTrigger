@@ -25,7 +25,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements TabAware {
+    private View rootView;
+
+    @Override
+    public void onTabShown() {
+        if (rootView != null && isAdded()) showBattery(rootView);
+    }
+
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private String uid = FirebaseAuth.getInstance().getUid();
@@ -123,8 +130,9 @@ public class ProfileFragment extends Fragment {
                 Toast.makeText(getContext(), getString(R.string.profile_save_error), Toast.LENGTH_SHORT).show();
             });
         });
+        rootView = v;
         btnBack.setOnClickListener(view -> {
-            getParentFragmentManager().popBackStack();
+            ((MainActivity) requireActivity()).selectTab(R.id.nav_home);
         });
 
         v.findViewById(R.id.cardArticles).setOnClickListener(view -> {

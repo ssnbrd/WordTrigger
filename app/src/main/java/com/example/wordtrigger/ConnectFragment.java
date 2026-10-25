@@ -87,6 +87,13 @@ public class ConnectFragment extends Fragment {
         btnStart.setOnClickListener(v -> {
             Intent serviceIntent = new Intent(getContext(), MonitoringService.class);
             if (!isServiceRunning) {
+                if (!androidx.core.app.NotificationManagerCompat.from(requireContext()).areNotificationsEnabled()) {
+
+                    Toast.makeText(getContext(), R.string.notif_disabled_hint, Toast.LENGTH_LONG).show();
+                    Intent settings = new Intent(android.provider.Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+                            .putExtra(android.provider.Settings.EXTRA_APP_PACKAGE, requireContext().getPackageName());
+                    startActivity(settings);
+                }
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     getContext().startForegroundService(serviceIntent);
                 } else {

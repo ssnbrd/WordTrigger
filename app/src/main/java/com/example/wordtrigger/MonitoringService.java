@@ -49,7 +49,7 @@ public class MonitoringService extends Service {
     public void onCreate() {
         super.onCreate();
 
-        BroadcastReceiver vibrationReceiver = new BroadcastReceiver() {
+        vibrationReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 if (udpService != null) udpService.sendVibrate();
@@ -139,6 +139,7 @@ public class MonitoringService extends Service {
     }
 
     private List<String> currentTargetWords;
+    private BroadcastReceiver vibrationReceiver;
 
     private SpeechRecognitionHelper createSpeechHelper() {
         return new SpeechRecognitionHelper(this, new SpeechRecognitionHelper.OnWordDetectedListener() {
@@ -188,6 +189,10 @@ public class MonitoringService extends Service {
         if (wifiLock.isHeld()) wifiLock.release();
         if (udpService != null) udpService.stop();
         statusHandler.removeCallbacksAndMessages(null);
+        if (vibrationReceiver != null) {
+            try { unregisterReceiver(vibrationReceiver); } catch (IllegalArgumentException ignored) { }
+            vibrationReceiver = null;
+        }
         super.onDestroy();
     }
 
