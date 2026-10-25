@@ -8,7 +8,48 @@ public final class AppSettings {
     private static final String KEY_AI_TOPIC = "ai_topic_check";
     private static final String KEY_LANG = "language";
 
+    private static final String KEY_THEME = "theme_mode";
+    private static final String KEY_ICON = "app_icon";
+
+    public static final String THEME_DARK = "dark";
+    public static final String THEME_LIGHT = "light";
+    public static final String THEME_SYSTEM = "system";
+
     private AppSettings() {}
+
+    /** Сохранённая тема. По умолчанию тёмная: приложение так выглядело всегда. */
+    public static String themeMode(Context c) {
+        String v = prefs(c).getString(KEY_THEME, THEME_DARK);
+        return THEME_LIGHT.equals(v) || THEME_SYSTEM.equals(v) ? v : THEME_DARK;
+    }
+
+    /** Сохраняет и сразу применяет тему: открытые экраны пересоздаются сами. */
+    public static void setThemeMode(Context c, String mode) {
+        prefs(c).edit().putString(KEY_THEME, mode).apply();
+        applyTheme(c);
+    }
+
+    public static void applyTheme(Context c) {
+        String mode = themeMode(c);
+        androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode(
+                THEME_LIGHT.equals(mode) ? androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
+                        : THEME_SYSTEM.equals(mode) ? androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+                        : androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES);
+    }
+
+    public static boolean isNight(Context c) {
+        return (c.getResources().getConfiguration().uiMode
+                & android.content.res.Configuration.UI_MODE_NIGHT_MASK)
+                == android.content.res.Configuration.UI_MODE_NIGHT_YES;
+    }
+
+    public static String iconId(Context c) {
+        return prefs(c).getString(KEY_ICON, AppIcons.DEFAULT_ID);
+    }
+
+    public static void setIconId(Context c, String id) {
+        prefs(c).edit().putString(KEY_ICON, id).apply();
+    }
 
     private static SharedPreferences prefs(Context c) {
         return c.getApplicationContext().getSharedPreferences(PREFS, Context.MODE_PRIVATE);

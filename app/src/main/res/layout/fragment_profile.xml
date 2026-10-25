@@ -222,7 +222,7 @@
             android:backgroundTint="@color/blue"
             android:text="@string/profile_context_save"
             android:textStyle="bold"
-            android:textColor="@color/white" />
+            android:textColor="@color/on_accent" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardArticles"

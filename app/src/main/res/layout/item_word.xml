@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="16dp"
-    app:cardBackgroundColor="#1A1A1A"
+    app:cardBackgroundColor="@color/card_dark"
     app:cardCornerRadius="15dp"
     app:cardElevation="0dp">
 
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             tools:text="слово-паразит, означающее..."
-            android:textColor="#CCCCCC"
+            android:textColor="@color/secondary_on_black"
             android:textSize="14sp" />
 
         <TextView

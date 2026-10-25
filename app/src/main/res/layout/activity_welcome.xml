@@ -33,7 +33,7 @@
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="@string/description"
-        android:textColor="#333333" />
+        android:textColor="@color/secondary_on_white" />
 
     <Button
         android:id="@+id/btnGetStarted"

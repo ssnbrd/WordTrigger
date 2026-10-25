@@ -46,9 +46,29 @@ public class MainActivity extends AppCompatActivity {
                     androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE);
         });
 
-        if (savedInstanceState == null && getIntent().getBooleanExtra(StreakWidgetProvider.EXTRA_OPEN_STUDY, false)) {
+        boolean fromWidget = getIntent().getBooleanExtra(StreakWidgetProvider.EXTRA_OPEN_STUDY, false);
+        if (savedInstanceState == null && fromWidget) {
             bottomNav.setSelectedItemId(R.id.nav_library);
         }
+        // раз в день при входе в приложение: колесо слова дня поверх главного экрана
+        if (savedInstanceState == null && !fromWidget && !WordOfDay.hasToday(this)) {
+            openWordWheel();
+        }
+    }
+
+    /** Открывает колесо слова дня (или сразу выпавшее слово, если колесо уже крутили сегодня). */
+    public void openWordWheel() {
+        androidx.fragment.app.FragmentManager fm = getSupportFragmentManager();
+        if (fm.isStateSaved() || fm.findFragmentByTag(WordWheelDialogFragment.TAG) != null) return;
+        new WordWheelDialogFragment().show(fm, WordWheelDialogFragment.TAG);
+    }
+
+    /** Колесо закрыли: карточка слова дня на главном экране обновляется. */
+    public void onWordWheelClosed() {
+        Fragment host = getSupportFragmentManager().findFragmentByTag(tag(R.id.nav_home));
+        if (host == null) return;
+        Fragment current = host.getChildFragmentManager().findFragmentById(R.id.fragment_container);
+        if (current instanceof TabAware) ((TabAware) current).onTabShown();
     }
 
     private BottomNavigationView bottomNav;

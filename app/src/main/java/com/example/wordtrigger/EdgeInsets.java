@@ -19,7 +19,10 @@ public final class EdgeInsets {
     }
 
     public static void apply(ComponentActivity activity, boolean darkBackground) {
-        SystemBarStyle style = darkBackground
+        // darkBackground = «фон экрана в роли black». В светлой теме роли меняются местами.
+        boolean night = AppSettings.isNight(activity);
+        boolean reallyDark = darkBackground ? night : !night;
+        SystemBarStyle style = reallyDark
                 ? SystemBarStyle.dark(Color.TRANSPARENT)
                 : SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT);
 

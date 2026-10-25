@@ -42,6 +42,8 @@ public class SettingsFragment extends Fragment {
 
     private ImageView ivAvatar;
     private TextView tvName, tvEmail, tvPhone, pillRu, pillEn;
+    private TextView pillThemeDark, pillThemeLight, pillThemeSystem;
+    private android.widget.LinearLayout iconRow;
 
     private final ActivityResultLauncher<PickVisualMediaRequest> photoPicker =
             registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
@@ -96,6 +98,17 @@ public class SettingsFragment extends Fragment {
         pillRu.setOnClickListener(x -> setLanguage("ru"));
         pillEn.setOnClickListener(x -> setLanguage("en"));
         updatePills();
+
+        pillThemeDark = v.findViewById(R.id.pillThemeDark);
+        pillThemeLight = v.findViewById(R.id.pillThemeLight);
+        pillThemeSystem = v.findViewById(R.id.pillThemeSystem);
+        pillThemeDark.setOnClickListener(x -> setTheme(AppSettings.THEME_DARK));
+        pillThemeLight.setOnClickListener(x -> setTheme(AppSettings.THEME_LIGHT));
+        pillThemeSystem.setOnClickListener(x -> setTheme(AppSettings.THEME_SYSTEM));
+        updateThemePills();
+
+        iconRow = v.findViewById(R.id.iconRow);
+        buildIconRow();
 
         MaterialSwitch aiSwitch = v.findViewById(R.id.switchAiTopic);
         aiSwitch.setChecked(AppSettings.isAiCheckEnabled(requireContext()));
@@ -274,8 +287,69 @@ public class SettingsFragment extends Fragment {
 
     private void updatePills() {
         boolean ru = "ru".equals(AppSettings.currentLanguage(requireContext()));
-        pillRu.setBackgroundResource(ru ? R.drawable.bg_pill_blue : R.drawable.bg_pill_gray);
-        pillEn.setBackgroundResource(ru ? R.drawable.bg_pill_gray : R.drawable.bg_pill_blue);
+        stylePill(pillRu, ru);
+        stylePill(pillEn, !ru);
+    }
+
+    private void stylePill(TextView pill, boolean active) {
+        pill.setBackgroundResource(active ? R.drawable.bg_pill_blue : R.drawable.bg_pill_gray);
+        pill.setTextColor(androidx.core.content.ContextCompat.getColor(requireContext(),
+                active ? R.color.on_accent : R.color.white));
+    }
+
+    private void updateThemePills() {
+        String mode = AppSettings.themeMode(requireContext());
+        stylePill(pillThemeDark, AppSettings.THEME_DARK.equals(mode));
+        stylePill(pillThemeLight, AppSettings.THEME_LIGHT.equals(mode));
+        stylePill(pillThemeSystem, AppSettings.THEME_SYSTEM.equals(mode));
+    }
+
+    private void setTheme(String mode) {
+        if (mode.equals(AppSettings.themeMode(requireContext()))) return;
+        AppSettings.setThemeMode(requireContext(), mode);
+    }
+
+    private void buildIconRow() {
+        iconRow.removeAllViews();
+        String current = AppSettings.iconId(requireContext());
+        float d = getResources().getDisplayMetrics().density;
+        int size = (int) (64 * d);
+        for (AppIcons.Choice choice : AppIcons.ALL) {
+            android.widget.LinearLayout cell = new android.widget.LinearLayout(requireContext());
+            cell.setOrientation(android.widget.LinearLayout.VERTICAL);
+            cell.setGravity(android.view.Gravity.CENTER_HORIZONTAL);
+            cell.setPadding((int) (6 * d), 0, (int) (6 * d), 0);
+
+            com.google.android.material.imageview.ShapeableImageView iv =
+                    new com.google.android.material.imageview.ShapeableImageView(requireContext());
+            iv.setShapeAppearanceModel(iv.getShapeAppearanceModel().toBuilder()
+                    .setAllCornerSizes(new com.google.android.material.shape.RelativeCornerSize(0.28f)).build());
+            iv.setImageDrawable(AppIcons.preview(requireContext(), choice));
+            boolean selected = choice.id.equals(current);
+            iv.setStrokeWidth(selected ? 3 * d : 1 * d);
+            iv.setStrokeColor(android.content.res.ColorStateList.valueOf(androidx.core.content.ContextCompat.getColor(
+                    requireContext(), selected ? R.color.blue : R.color.light_gray)));
+            iv.setPadding((int) (2 * d), (int) (2 * d), (int) (2 * d), (int) (2 * d));
+            cell.addView(iv, new android.widget.LinearLayout.LayoutParams(size, size));
+
+            TextView label = new TextView(requireContext());
+            label.setText(choice.label);
+            label.setTextSize(12);
+            label.setPadding(0, (int) (6 * d), 0, 0);
+            label.setTextColor(androidx.core.content.ContextCompat.getColor(requireContext(),
+                    selected ? R.color.blue : R.color.white));
+            cell.addView(label);
+
+            cell.setOnClickListener(x -> chooseIcon(choice));
+            iconRow.addView(cell);
+        }
+    }
+
+    private void chooseIcon(AppIcons.Choice choice) {
+        if (choice.id.equals(AppSettings.iconId(requireContext()))) return;
+        AppIcons.apply(requireContext(), choice.id);
+        buildIconRow();
+        Toast.makeText(requireContext(), R.string.settings_icon_changed, Toast.LENGTH_LONG).show();
     }
 
     private void setLanguage(String tag) {

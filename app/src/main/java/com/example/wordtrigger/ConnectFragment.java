@@ -59,7 +59,7 @@ public class ConnectFragment extends Fragment {
                     tvConnectionStatus.setTextColor(Color.parseColor("#0000FF"));
                 } else {
                     tvConnectionStatus.setText(getString(R.string.connect_device_search));
-                    tvConnectionStatus.setTextColor(Color.parseColor("#121314"));
+                    tvConnectionStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.black));
                 }
                 if (heardText != null) statusText.setText(heardText);
             }
@@ -88,7 +88,7 @@ public class ConnectFragment extends Fragment {
             Intent serviceIntent = new Intent(getContext(), MonitoringService.class);
             if (!isServiceRunning) {
                 if (!androidx.core.app.NotificationManagerCompat.from(requireContext()).areNotificationsEnabled()) {
-
+                    // служба всё равно работает, но уведомления о ней не видно: подсказываем, где включить
                     Toast.makeText(getContext(), R.string.notif_disabled_hint, Toast.LENGTH_LONG).show();
                     Intent settings = new Intent(android.provider.Settings.ACTION_APP_NOTIFICATION_SETTINGS)
                             .putExtra(android.provider.Settings.EXTRA_APP_PACKAGE, requireContext().getPackageName());
@@ -112,7 +112,7 @@ public class ConnectFragment extends Fragment {
 
         searchBut.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                searchBut.setCardBackgroundColor(Color.LTGRAY);
+                searchBut.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.light_gray));
                 searchRunnable = new Runnable() {
                     @Override
                     public void run() {
@@ -124,7 +124,7 @@ public class ConnectFragment extends Fragment {
                 searchHandler.post(searchRunnable);
                 return true;
             } else if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {
-                searchBut.setCardBackgroundColor(Color.parseColor("#F6F6F6"));
+                searchBut.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white));
                 searchHandler.removeCallbacks(searchRunnable);
                 return true;
             }
@@ -157,11 +157,11 @@ public class ConnectFragment extends Fragment {
                 };
                 int[] colors = new int[]{
                         Color.parseColor("#0000FF"),
-                        Color.parseColor("#2C2C2E")
+                        ContextCompat.getColor(requireContext(), R.color.dark_gray)
                 };
                 chip.setChipBackgroundColor(new android.content.res.ColorStateList(states, colors));
 
-                chip.setTextColor(Color.WHITE);
+                chip.setTextColor(ContextCompat.getColorStateList(requireContext(), R.color.chip_text_color));
 
                 chip.setChipStrokeWidth(0f);
 
@@ -224,17 +224,17 @@ public class ConnectFragment extends Fragment {
         };
         int[] colors = new int[]{
                 Color.parseColor("#0000FF"),
-                Color.parseColor("#2C2C2E")
+                ContextCompat.getColor(requireContext(), R.color.dark_gray)
         };
         chip.setChipBackgroundColor(new android.content.res.ColorStateList(states, colors));
 
-        chip.setTextColor(Color.WHITE);
+        chip.setTextColor(ContextCompat.getColorStateList(requireContext(), R.color.chip_text_color));
 
         chip.setChipStrokeWidth(0f);
 
         if (!isDefaultWord(word)) {
             chip.setCloseIconVisible(true);
-            chip.setCloseIconTint(android.content.res.ColorStateList.valueOf(Color.WHITE));
+            chip.setCloseIconTint(android.content.res.ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.white)));
             chip.setOnCloseIconClickListener(v -> {
                 parasiteChipGroup.removeView(chip);
             });

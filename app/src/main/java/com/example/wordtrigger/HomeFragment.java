@@ -54,6 +54,10 @@ public class HomeFragment extends Fragment implements TabAware {
     private int[] weekData = new int[7];
     private int yesterdayCount, maxOther, minOther = Integer.MAX_VALUE;
     private boolean statsLoaded;
+    // вся история по датам (yyyy-MM-dd -> число слов): из неё строится график за неделю, месяц или год
+    private final java.util.Map<String, Integer> history = new java.util.HashMap<>();
+    private static int chartPeriod = ChartPeriods.WEEK;     // выбранный период помним, пока приложение открыто
+    private TextView[] periodPills;
     private android.content.SharedPreferences.OnSharedPreferenceChangeListener counterListener;
 
     private LineChart lineChart;
@@ -96,6 +100,18 @@ public class HomeFragment extends Fragment implements TabAware {
         tvDiffLabel = root.findViewById(R.id.tvDiffLabel);
         db = FirebaseFirestore.getInstance();
 
+        periodPills = new TextView[]{root.findViewById(R.id.pillWeek), root.findViewById(R.id.pillMonth),
+                root.findViewById(R.id.pillYear)};
+        for (int i = 0; i < periodPills.length; i++) {
+            final int mode = i;
+            periodPills[i].setOnClickListener(x -> {
+                chartPeriod = mode;
+                stylePeriodPills();
+                refreshFromLocal();
+            });
+        }
+        stylePeriodPills();
+
         listenToUpdates();
         loadStatistics();
 
@@ -116,7 +132,30 @@ public class HomeFragment extends Fragment implements TabAware {
         return root;
     }
 
-    private void setupSimpleChart(ArrayList<Entry> entries) {
+    private void stylePeriodPills() {
+        for (int i = 0; i < periodPills.length; i++) {
+            boolean active = i == chartPeriod;
+            periodPills[i].setBackgroundResource(active ? R.drawable.bg_pill_blue : R.drawable.bg_pill_gray);
+            periodPills[i].setTextColor(themeColor(active ? R.color.on_accent : R.color.white));
+        }
+    }
+
+    /** Подписи оси X для выбранного периода. */
+    private String[] chartLabels(int count) {
+        if (chartPeriod == ChartPeriods.YEAR) return getResources().getStringArray(R.array.months_short);
+        if (chartPeriod == ChartPeriods.MONTH) {
+            String[] days = new String[count];
+            for (int i = 0; i < count; i++) days[i] = String.valueOf(i + 1);
+            return days;
+        }
+        return getResources().getStringArray(R.array.weekdays_short);
+    }
+
+    private int themeColor(int res) {
+        return androidx.core.content.ContextCompat.getColor(requireContext(), res);
+    }
+
+    private void setupSimpleChart(ArrayList<Entry> entries, String[] days) {
 
         if (entries == null || entries.isEmpty()) {
             lineChart.clear();
@@ -127,9 +166,10 @@ public class HomeFragment extends Fragment implements TabAware {
 
         dataSet.setColor(Color.parseColor("#0000FF"));
         dataSet.setLineWidth(3f);
-        dataSet.setCircleColor(Color.WHITE);
+        dataSet.setCircleColor(themeColor(R.color.white));
         dataSet.setCircleRadius(5f);
         dataSet.setDrawCircleHole(false);
+        dataSet.setDrawCircles(entries.size() <= 12);      // в месяце 28-31 точка: кружки только мешают
         dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
         dataSet.setDrawFilled(true);
         dataSet.setFillColor(Color.parseColor("#0000FF"));
@@ -139,24 +179,24 @@ public class HomeFragment extends Fragment implements TabAware {
         LineData lineData = new LineData(dataSet);
         lineChart.setData(lineData);
 
-        lineChart.setBackgroundColor(Color.parseColor("#121314"));
+        lineChart.setBackgroundColor(themeColor(R.color.black));
         lineChart.setDrawGridBackground(false);
         lineChart.getDescription().setEnabled(false);
         lineChart.getLegend().setEnabled(false);
 
-        String[] days = getResources().getStringArray(R.array.weekdays_short);
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setValueFormatter(new IndexAxisValueFormatter(days));
         xAxis.setGranularity(1f);
-        xAxis.setTextColor(Color.WHITE);
+        xAxis.setLabelCount(Math.min(days.length, chartPeriod == ChartPeriods.MONTH ? 8 : 12), false);
+        xAxis.setTextColor(themeColor(R.color.white));
         xAxis.setDrawGridLines(false);
-        xAxis.setAxisLineColor(Color.WHITE);
+        xAxis.setAxisLineColor(themeColor(R.color.white));
 
         lineChart.getAxisRight().setEnabled(false);
         YAxis leftAxis = lineChart.getAxisLeft();
-        leftAxis.setTextColor(Color.WHITE);
-        leftAxis.setGridColor(Color.parseColor("#333333"));
+        leftAxis.setTextColor(themeColor(R.color.white));
+        leftAxis.setGridColor(themeColor(R.color.divider));
         leftAxis.setAxisMinimum(0f);
         leftAxis.setGranularity(1f);
 
@@ -202,6 +242,7 @@ public class HomeFragment extends Fragment implements TabAware {
         db.collection("users").document(uid).collection("history")
                 .get()
                 .addOnSuccessListener(snapshots -> {
+                    history.clear();
                     if (snapshots.isEmpty()) {
                         updateUI(new int[7], 0, 0, 0, Integer.MAX_VALUE);
                         return;
@@ -223,6 +264,7 @@ public class HomeFragment extends Fragment implements TabAware {
                             if (count > 0 && count < globalMin) globalMin = (int) count;
                         }
 
+                        history.put(dateId, (int) count);
                         if (dateId.equals(todayStr)) totalToday = (int) count;
                         if (dateId.equals(yesterdayStr)) totalYesterday = (int) count;
 
@@ -265,6 +307,7 @@ public class HomeFragment extends Fragment implements TabAware {
     @Override
     public void onTabShown() {
         loadStatistics();
+        showWordOfDay();
     }
 
     @Override
@@ -272,6 +315,7 @@ public class HomeFragment extends Fragment implements TabAware {
         super.onStart();
         counterListener = FillerCounter.addListener(requireContext(), this::refreshFromLocal);
         refreshFromLocal();
+        showWordOfDay();
     }
 
     @Override
@@ -281,10 +325,25 @@ public class HomeFragment extends Fragment implements TabAware {
         super.onStop();
     }
 
+    private void showWordOfDay() {
+        View root = getView();
+        if (root == null) return;
+        TextView word = root.findViewById(R.id.tvWodWord);
+        TextView def = root.findViewById(R.id.tvWodDef);
+        WordOfDay.Entry e = WordOfDay.today(requireContext());
+        if (e != null) {
+            word.setText(e.word.substring(0, 1).toUpperCase() + e.word.substring(1));
+            def.setText(e.definition);
+        } else {
+            word.setText(R.string.wod_card_cta);
+            def.setText(R.string.wod_card_tap);
+        }
+        root.findViewById(R.id.cardWordOfDay).setOnClickListener(x -> {
+            if (getActivity() instanceof MainActivity) ((MainActivity) getActivity()).openWordWheel();
+        });
+    }
+
     private void render(int today) {
-        int[] dailyCounts = weekData.clone();
-        int dow = java.util.Calendar.getInstance().get(java.util.Calendar.DAY_OF_WEEK);
-        dailyCounts[dow == java.util.Calendar.SUNDAY ? 6 : dow - 2] = today;     // Пн=0 ... Вс=6
         int yesterday = yesterdayCount;
         int max = Math.max(maxOther, today);
         int min = today > 0 ? Math.min(minOther, today) : minOther;
@@ -304,11 +363,15 @@ public class HomeFragment extends Fragment implements TabAware {
             tvDiffLabel.setText(getString(R.string.home_diff_same));
         }
 
+        java.util.Calendar now = java.util.Calendar.getInstance();
+        java.util.Map<String, Integer> withToday = new java.util.HashMap<>(history);
+        withToday.put(ChartPeriods.key(now), today);                 // сегодняшнее число берём из живого счётчика
+        int[] series = ChartPeriods.values(chartPeriod, withToday, now);
         ArrayList<Entry> entries = new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
-            entries.add(new Entry(i, dailyCounts[i]));
+        for (int i = 0; i < series.length; i++) {
+            entries.add(new Entry(i, series[i]));
         }
-        setupSimpleChart(entries);
+        setupSimpleChart(entries, chartLabels(series.length));
     }
     private void getAIWeeklyReport() {
         String uid = FirebaseAuth.getInstance().getUid();

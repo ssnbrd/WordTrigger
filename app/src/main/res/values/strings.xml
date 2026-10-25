@@ -358,4 +358,84 @@
     <string name="notif_disabled_hint">Notifications are turned off for WordTrigger. Turn them on to see the “system is active” notification.</string>
     <string name="ai_err_timeout">The AI service is answering too slowly. A simple check was used instead.</string>
 
+    <string name="settings_theme">Appearance</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_system">System</string>
+    <string name="settings_icon">App icon</string>
+    <string name="settings_icon_desc">Choose how the app looks on your home screen</string>
+    <string name="settings_icon_changed">The icon will update in a few seconds. On some phones the app may close briefly.</string>
+    <string name="icon_classic">Classic</string>
+    <string name="icon_dark">Dark</string>
+    <string name="icon_blue">Blue</string>
+    <string name="icon_light">Light</string>
+    <string name="icon_flame">Black classic</string>
+    <string name="wod_title">Word of the day</string>
+    <string name="wod_wheel_title">Word of the day wheel</string>
+    <string name="wod_wheel_hint">Spin the wheel to pick the word worth remembering today</string>
+    <string name="wod_spin">Spin</string>
+    <string name="wod_result_caption">Your word of the day</string>
+    <string name="wod_example_label">Example</string>
+    <string name="wod_close">Close</string>
+    <string name="wod_got_it">Got it!</string>
+    <string name="wod_card_cta">Spin the wheel to get today’s word</string>
+    <string name="wod_card_tap">Tap to open</string>
+    <string-array name="word_of_day_bank">
+        <item>Ephemeral|lasting for a very short time|Fame on social media is often ephemeral.</item>
+        <item>Concise|giving a lot of information clearly in few words|Keep your answer concise and to the point.</item>
+        <item>Eloquent|fluent and persuasive in speaking or writing|She gave an eloquent speech that moved the audience.</item>
+        <item>Nuance|a subtle difference in meaning, tone or feeling|There is an important nuance between “said” and “claimed”.</item>
+        <item>Articulate|able to express thoughts clearly and effectively|He is an articulate speaker who never rambles.</item>
+        <item>Succinct|briefly and clearly expressed|A succinct summary saves everyone’s time.</item>
+        <item>Meticulous|showing great attention to detail|The editor was meticulous and caught every typo.</item>
+        <item>Candid|honest and straightforward, even if it is uncomfortable|I appreciate your candid feedback.</item>
+        <item>Pragmatic|dealing with things sensibly and realistically|A pragmatic approach solves problems faster.</item>
+        <item>Ambiguous|open to more than one interpretation|The ambiguous answer left everyone confused.</item>
+        <item>Resilient|able to recover quickly from difficulties|Resilient people learn from every setback.</item>
+        <item>Diligent|showing steady, careful effort in work|A diligent student practises every day.</item>
+        <item>Lucid|clearly expressed and easy to understand|Her lucid explanation made the topic simple.</item>
+        <item>Cogent|clear, logical and convincing|He made a cogent argument for the change.</item>
+        <item>Verbose|using more words than needed|The verbose report could be half as long.</item>
+        <item>Laconic|using very few words|His laconic reply was just one word: “Maybe”.</item>
+        <item>Tenacious|holding firmly to a goal; not giving up|A tenacious learner masters hard words.</item>
+        <item>Serendipity|a happy discovery made by chance|Meeting her was pure serendipity.</item>
+        <item>Benevolent|kind, well-meaning and generous|The benevolent teacher always found time to help.</item>
+        <item>Plausible|seeming reasonable and likely to be true|That sounds like a plausible explanation.</item>
+        <item>Ubiquitous|seeming to be present everywhere|Smartphones are ubiquitous these days.</item>
+        <item>Quintessential|the most perfect example of something|Tea is the quintessential British drink.</item>
+        <item>Mundane|ordinary and lacking excitement|Even mundane tasks can be done with care.</item>
+        <item>Rhetoric|the art of speaking or writing persuasively|Good rhetoric rests on clear ideas.</item>
+        <item>Cadence|the rhythm and rise and fall of the voice|The cadence of her speech was calm and steady.</item>
+        <item>Fluent|speaking smoothly and easily|She became fluent after a year of daily practice.</item>
+        <item>Impromptu|done without preparation|He gave an impromptu toast at dinner.</item>
+        <item>Empathy|the ability to understand another person’s feelings|Empathy makes conversations warmer.</item>
+        <item>Tangible|real enough to be noticed or measured|We saw tangible progress after a week.</item>
+        <item>Paradox|a statement that seems absurd but may be true|The more you learn, the less you feel you know: a paradox.</item>
+        <item>Intuitive|understood without needing much explanation|The app has an intuitive design.</item>
+        <item>Versatile|able to adapt to many different uses|A versatile word fits many contexts.</item>
+        <item>Scrutinize|to examine very carefully|Scrutinize the contract before you sign.</item>
+        <item>Coherent|logical, consistent and easy to follow|Write a coherent paragraph with one main idea.</item>
+        <item>Perceptive|quick to notice and understand things|A perceptive listener hears what is left unsaid.</item>
+        <item>Subtle|delicate and hard to notice|There is a subtle hint of sarcasm in his tone.</item>
+        <item>Pivotal|of great importance because other things depend on it|That conversation was pivotal for her career.</item>
+        <item>Tactful|careful not to hurt others’ feelings|A tactful reply keeps the peace.</item>
+        <item>Gregarious|fond of company; sociable|A gregarious host makes every guest feel welcome.</item>
+    </string-array>
+    <string name="period_week">Week</string>
+    <string name="period_month">Month</string>
+    <string name="period_year">Year</string>
+    <string-array name="months_short">
+        <item>Jan</item>
+        <item>Feb</item>
+        <item>Mar</item>
+        <item>Apr</item>
+        <item>May</item>
+        <item>Jun</item>
+        <item>Jul</item>
+        <item>Aug</item>
+        <item>Sep</item>
+        <item>Oct</item>
+        <item>Nov</item>
+        <item>Dec</item>
+    </string-array>
 </resources>
