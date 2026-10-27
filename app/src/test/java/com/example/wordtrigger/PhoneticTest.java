@@ -2,6 +2,9 @@ package com.example.wordtrigger;
 
 import static org.junit.Assert.*;
 
+import com.example.wordtrigger.speech.SpeechScorer;
+import com.example.wordtrigger.speech.TopicScorer;
+
 import org.junit.Test;
 
 public class PhoneticTest {

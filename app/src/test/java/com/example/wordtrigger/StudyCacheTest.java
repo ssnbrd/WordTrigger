@@ -2,6 +2,8 @@ package com.example.wordtrigger;
 
 import static org.junit.Assert.assertEquals;
 
+import com.example.wordtrigger.data.local.StudyCache;
+
 import org.junit.Test;
 
 public class StudyCacheTest {

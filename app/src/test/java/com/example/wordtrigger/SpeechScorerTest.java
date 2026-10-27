@@ -3,6 +3,8 @@ package com.example.wordtrigger;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import com.example.wordtrigger.speech.SpeechScorer;
+
 import org.junit.Test;
 
 import java.util.Arrays;

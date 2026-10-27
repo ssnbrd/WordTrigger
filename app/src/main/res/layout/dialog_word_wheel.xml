@@ -46,7 +46,7 @@
             android:layout_height="340dp"
             android:layout_marginTop="20dp">
 
-            <com.example.wordtrigger.FortuneWheelView
+            <com.example.wordtrigger.ui.wordofday.FortuneWheelView
                 android:id="@+id/wheel"
                 android:layout_width="320dp"
                 android:layout_height="320dp"

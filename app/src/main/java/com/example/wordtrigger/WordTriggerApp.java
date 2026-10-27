@@ -2,7 +2,8 @@ package com.example.wordtrigger;
 
 import android.app.Application;
 
-/** Применяет выбранную тему до создания первого экрана, чтобы не было вспышки не той темы. */
+import com.example.wordtrigger.data.local.AppSettings;
+
 public class WordTriggerApp extends Application {
     @Override
     public void onCreate() {

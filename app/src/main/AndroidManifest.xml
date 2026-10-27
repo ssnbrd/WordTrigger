@@ -18,7 +18,7 @@
         android:name=".WordTriggerApp"
         android:theme="@style/Theme.WordTrigger">
         <service
-            android:name=".MonitoringService"
+            android:name=".service.MonitoringService"
             android:foregroundServiceType="microphone"
             android:enabled="true"
             android:exported="false"/>
@@ -31,7 +31,7 @@
                 android:value="true"/>
         </service>
         <receiver
-            android:name=".FillerWidgetProvider"
+            android:name=".widget.FillerWidgetProvider"
             android:exported="false">
             <intent-filter>
                 <action
@@ -42,7 +42,7 @@
                 android:resource="@xml/filler_widget_info"/>
         </receiver>
         <receiver
-            android:name=".StreakWidgetProvider"
+            android:name=".widget.StreakWidgetProvider"
             android:exported="false">
             <intent-filter>
                 <action
@@ -53,16 +53,16 @@
                 android:resource="@xml/streak_widget_info"/>
         </receiver>
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.main.MainActivity"
             android:exported="false"/>
         <activity
-            android:name=".SignInActivity"
+            android:name=".ui.auth.SignInActivity"
             android:exported="false"/>
         <activity
-            android:name=".SignUpActivity"
+            android:name=".ui.auth.SignUpActivity"
             android:exported="false"/>
         <activity
-            android:name=".WelcomeActivity"
+            android:name=".ui.auth.WelcomeActivity"
             android:exported="true"/>
         <activity-alias
             android:name=".IconClassic"
@@ -71,7 +71,7 @@
             android:icon="@mipmap/ic_launcher"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:label="@string/app_name"
-            android:targetActivity=".WelcomeActivity">
+            android:targetActivity=".ui.auth.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -84,7 +84,7 @@
             android:icon="@mipmap/ic_launcher_dark"
             android:roundIcon="@mipmap/ic_launcher_dark"
             android:label="@string/app_name"
-            android:targetActivity=".WelcomeActivity">
+            android:targetActivity=".ui.auth.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -97,7 +97,7 @@
             android:icon="@mipmap/ic_launcher_blue"
             android:roundIcon="@mipmap/ic_launcher_blue"
             android:label="@string/app_name"
-            android:targetActivity=".WelcomeActivity">
+            android:targetActivity=".ui.auth.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -110,7 +110,7 @@
             android:icon="@mipmap/ic_launcher_light"
             android:roundIcon="@mipmap/ic_launcher_light"
             android:label="@string/app_name"
-            android:targetActivity=".WelcomeActivity">
+            android:targetActivity=".ui.auth.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -123,7 +123,7 @@
             android:icon="@mipmap/ic_black"
             android:roundIcon="@mipmap/ic_black"
             android:label="@string/app_name"
-            android:targetActivity=".WelcomeActivity">
+            android:targetActivity=".ui.auth.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
